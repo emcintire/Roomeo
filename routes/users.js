@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { User, schema } = require("../models/user");
+const validateObjectId = require('../middleware/validateObjectId');
 
 
 // router.get("/me", auth, async (req, res) => {
@@ -38,6 +39,17 @@ router.delete("/:id", async (req, res) => {
             .send("The user with the given ID was not found.");
 
     res.send(user);
+});
+
+router.get("/:id", validateObjectId, async (req, res) => {
+    const genre = await Genre.findById(req.params.id);
+
+    if (!genre)
+        return res
+            .status(404)
+            .send("The genre with the given ID was not found.");
+
+    res.send(genre);
 });
 
 module.exports = router;
