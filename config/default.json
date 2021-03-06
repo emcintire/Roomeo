@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "bushdid911",
+    "db": "mongodb://localhost/roomeo"
+}

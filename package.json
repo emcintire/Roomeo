@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Adora-A/CSC436#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "config": "^3.3.4",
     "express": "^4.17.1",
     "joi": "^17.4.0",
     "joi-objectid": "^3.0.1",
