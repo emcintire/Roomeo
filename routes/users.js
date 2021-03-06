@@ -30,7 +30,9 @@ router.post("/", async (req, res) => {
     res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
+    //Delete a user with the given id
+
     const user = await User.findByIdAndRemove(req.params.id);
 
     if (!user)
