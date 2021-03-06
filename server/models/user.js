@@ -48,5 +48,13 @@ const schema = Joi.object({
         .required(),
 });
 
+const updateSchema = Joi.object({
+    //Validates the user object for updating user
+    name: Joi.string().min(1).max(100),
+    email: Joi.string().min(1).max(255).email(),
+    password: Joi.string().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+});
+
 exports.schema = schema;
+exports.updateSchema = updateSchema;
 exports.User = User;

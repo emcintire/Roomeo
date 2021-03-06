@@ -4,14 +4,14 @@ const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const auth = require('../middleware/auth');
 const validateObjectId = require('../middleware/validateObjectId');
-const { User, schema } = require('../models/user');
+const { User, schema, updateSchema } = require('../models/user');
 
 router.get('/me', auth, async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
     res.send(user);
 });
 
-router.post('/register', async (req, res) => {
+router.post('/', async (req, res) => {
     //Create a user with properties: name, email, password
     const { error } = schema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -28,6 +28,27 @@ router.post('/register', async (req, res) => {
     res.header('x-auth-token', token).send(
         _.pick(user, ['_id', 'name', 'email'])
     );
+});
+
+router.put('/updateEmail/:id', auth, async (req, res) => {
+    const { error } = updateSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        { email: req.body.email },
+        {
+            new: true,
+        }
+    );
+
+    if (!user)
+        return res
+            .status(404)
+            .send("The user with the given ID was not found.");
+
+    res.send(user);
+
 });
 
 router.delete('/:id', [auth, validateObjectId], async (req, res) => {
