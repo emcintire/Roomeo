@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 
 const userShema = new mongoose.Schema({
+    //Mongoose user schema 
     name: {
         type: String,
         required: true,
@@ -29,6 +30,7 @@ const userShema = new mongoose.Schema({
 });
 
 userShema.methods.generateAuthToken = function () {
+    //Generates a json web token used for logging in users
     return (jwt.sign(
         { _id: this._id, isAdmin: this.isAdmin },
         config.get("jwtPrivateKey")
@@ -38,6 +40,7 @@ userShema.methods.generateAuthToken = function () {
 const User = mongoose.model("User", userShema);
 
 const schema = Joi.object({
+    //Validates the user object
     name: Joi.string().min(1).max(100).required(),
     email: Joi.string().min(1).max(255).required().email(),
     password: Joi.string()
