@@ -15,7 +15,7 @@ describe("/api/users", () => {
 
     describe("GET /:id", () => {
         it("should return a user if valid id is passed", async () => {
-            const user = new User({ name: "user1", email: 'user1@gmail.com', password:  });
+            const user = new User({ name: "user1", email: 'user1@gmail.com', password:  ''});
             await user.save();
 
             const res = await request(server).get("/api/users/" + user._id);
