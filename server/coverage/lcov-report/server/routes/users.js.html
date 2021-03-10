@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.38% </span>
+                <span class="strong">66.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/42</span>
+                <span class='fraction'>28/42</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/12</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.85% </span>
+                <span class="strong">69.23% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/39</span>
+                <span class='fraction'>27/39</span>
             </div>
         
             
@@ -168,19 +168,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -205,11 +205,11 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -245,11 +245,11 @@ router.post('/', async (req, res) =&gt; {
     );
 });
 &nbsp;
-router.put('/updateEmail/:id', auth, <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
-    const { error } = <span class="cstat-no" title="statement not covered" >updateSchema.validate(req.body);</span>
-<span class="cstat-no" title="statement not covered" >    if (error) <span class="cstat-no" title="statement not covered" >return res.status(400).send(error.details[0].message);</span></span>
+router.put('/updateEmail/:id', auth, async (req, res) =&gt; {
+    const { error } = updateSchema.validate(req.body);
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (error) <span class="cstat-no" title="statement not covered" >return res.status(400).send(error.details[0].message);</span>
 &nbsp;
-    const user = <span class="cstat-no" title="statement not covered" >await User.findByIdAndUpdate(</span>
+    const user = await User.findByIdAndUpdate(
         req.params.id,
         { email: req.body.email },
         {
@@ -257,8 +257,8 @@ router.put('/updateEmail/:id', auth, <span class="fstat-no" title="function not 
         }
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!user)</span>
-<span class="cstat-no" title="statement not covered" >        return res</span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (!user)
+        return res
             .status(404)
             .send("The user with the given ID was not found.");
 &nbsp;
@@ -282,12 +282,12 @@ router.get('/:id', validateObjectId, async (req, res) =&gt; {
     //Returns the user with the given id
     const user = await User.findById(req.params.id);
 &nbsp;
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (!user)
+    if (!user)
         return res
             .status(404)
             .send('The user with the given ID was not found.');
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    res.send(user);</span>
+    res.send(user);
 });
 &nbsp;
 module.exports = router;
@@ -298,7 +298,7 @@ module.exports = router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Mar 09 2021 22:22:48 GMT-0500 (Eastern Standard Time)
+                at Wed Mar 10 2021 15:42:35 GMT-0500 (Eastern Standard Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

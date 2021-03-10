@@ -86,6 +86,33 @@ describe('/api/users', () => {
             const genre = await User.find({ email: 'user1@gmail.com' });
 
             expect(genre).not.toBeNull();
+        }); 
+    });
+
+    describe('PUT /updateEmail/:id', () => {
+        let user;
+        let token;
+
+        beforeEach(() => {
+            user = {
+                name: 'user1', 
+                email: 'user1@gmail.com',
+                password: 'User12345'
+            };
+        });
+        afterEach(async () => {
+            await User.remove({});
+        });    
+
+        it('should return 404 if the user with given id isnt found', async () => {
+            token = new User(user).generateAuthToken();
+
+            res = await request(server)
+                .put('/api/users/updateEmail/' + mongoose.Types.ObjectId())
+                .set('x-auth-token', token)
+                .send(user.email);
+            
+            expect(res.status).toBe(404);
         });
     });
 });

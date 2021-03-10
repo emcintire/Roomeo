@@ -14,9 +14,9 @@ describe('auth middleware', () => {
 
     let token;
     const user = new User({
-        name: 'Frank',
-        email: 'frank@gmail.com',
-        password: 'Frank6969',
+        name: 'user1',
+        email: 'user1@gmail.com',
+        password: 'User12345',
     });
 
     const exec = () => {
