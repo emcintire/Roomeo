@@ -7,7 +7,7 @@
     "client": "cd client && yarn start",
     "server": "cd server && nodemon index.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "test": "jest --watchAll --detectOpenHandles"
+    "test": "jest --watchAll --coverage"
   },
   "repository": {
     "type": "git",
