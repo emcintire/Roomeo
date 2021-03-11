@@ -36,9 +36,9 @@ function Footer() {
       <div className='footer-links'>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
-            <h2>About Us</h2>
+            <h2> About Us</h2>
             <Link to='/'>Mission Statement</Link>
-            <Link to='/'>Privacy Policy</Link>
+            <Link to='/privacy'>Privacy Policy</Link>
             <Link to='/terms'>Terms of Service</Link>
           </div>
           <div className='footer-link-items'>

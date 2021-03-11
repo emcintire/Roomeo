@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../forms.css';
 
 class signIn extends Component {
     constructor(props) {
@@ -33,30 +34,39 @@ class signIn extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        name="email"
-                        placeholder="Email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                    />
+            <div className='form-container'>
+                <div className= 'form-content'>
+                    <form onSubmit={this.handleSubmit} className='form'>
+                        <h1> Sign In </h1>
+                        <div className='form-inputs'>
+                            <label htmlFor="email" className= 'form-label'>Email</label>
+                            <input
+                                className='form-input'
+                                name="email"
+                                type='email'
+                                placeholder="Email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className='form-inputs'>
+                            <label htmlFor="password" className= 'form-label'>Password</label>
+                            <input
+                                className='form-input'
+                                name="password"
+                                type='password'
+                                placeholder="Password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div>
+                            <button className='form-button' type='submit'>Login</button>
+                        </div>
+                        <p>{this.state.responseToPost}</p>
+                    </form>
                 </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        name="password"
-                        placeholder="Password"
-                        value={this.state.password}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <div>
-                    <button>Login</button>
-                </div>
-                <p>{this.state.responseToPost}</p>
-            </form>
+            </div>
         );
     }
 }

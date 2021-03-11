@@ -7,6 +7,8 @@
         "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
     },
     "dependencies": {
+        "framer-motion": "^3.10.2",
+        "styled-components": "^5.2.1",
         "yarn": "^1.22.10"
     }
 }

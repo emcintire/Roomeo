@@ -7,6 +7,7 @@ import AboutUs from './components/pages/AboutUs/about-us';
 import SignIn from './components/pages/SignIn/sign-in';
 import SignUp from './components/pages/SignUp/sign-up';
 import Terms from './components/pages/Terms/terms';
+import Privacy from './components/pages/Privacy/privacy';
 
 
 function App() {
@@ -19,10 +20,9 @@ function App() {
         <Route path='/sign-up/' component={SignUp}  />
         <Route path='/sign-in/' component={SignIn}  />
       </Switch>
+      <Route path='/terms/' component={Terms}  />
+      <Route path='/privacy/' component={Privacy}  />
       <Footer />
-      <Switch>
-        <Route path='/terms/' component={Terms}  />
-      </Switch>
     </Router>   
   );
 }

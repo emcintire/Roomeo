@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import '../forms.css';
+
 
 class signUp extends Component {
     constructor(props) {
@@ -38,48 +40,63 @@ class signUp extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label htmlFor="name">Name</label>
-                    <input
-                        name="name"
-                        placeholder="Name"
-                        value={this.state.name}
-                        onChange={this.handleChange}
-                    />
+            <div>
+                <div className='form-container'> 
+                    <div className= 'form-content'>
+                        <form onSubmit={this.handleSubmit} className='form'>
+                                <h1> Create Account </h1>
+                                <div className= 'form-inputs'>
+                                <label htmlFor="name" className= 'form-label'>Name</label>
+                                <input
+                                    className='form-input'
+                                    type='text'
+                                    name="name"
+                                    placeholder="Enter your Full Name"
+                                    value={this.state.name}
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                                <div className= 'form-inputs'>
+                                <label htmlFor="email" className= 'form-label'>Email</label>
+                                <input
+                                    className='form-input'
+                                    name="email"
+                                    type='email'
+                                    placeholder="Email"
+                                    value={this.state.email}
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                                <div className= 'form-inputs'>
+                                <label htmlFor="password" className= 'form-label'>Password</label>
+                                <input
+                                    className='form-input'
+                                    name="password"
+                                    type='password'
+                                    placeholder="Password"
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                                <div className= 'form-inputs'>
+                                <label htmlFor="confirmPassword" className= 'form-label'>Confirm Password</label>
+                                <input
+                                    className='form-input'
+                                    name="confirmPassword"
+                                    type='password'
+                                    placeholder="Confirm Password"
+                                    value={this.state.confirmPassword}
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                                <div>
+                                <button className='form-button' type='submit'>Create Account</button>
+                                </div>
+                                <p>{this.state.responseToPost}</p>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        name="email"
-                        placeholder="Email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        name="password"
-                        placeholder="Password"
-                        value={this.state.password}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input
-                        name="confirmPassword"
-                        placeholder="confirmPassword"
-                        value={this.state.confirmPassword}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <div>
-                    <button>Create Account</button>
-                </div>
-                <p>{this.state.responseToPost}</p>
-            </form>
+            </div>   
         );
     }
 }

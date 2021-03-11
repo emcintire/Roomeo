@@ -4,7 +4,12 @@ import React from 'react';
 
 function aboutUs() {
     return (
-        <h1> About Us</h1>
+        <div>
+            <h1> About Us</h1>
+            <p>Roomeo is a service tailored to fit your rooming dreams. We keep you in mind at every step to ensure
+                you have the best experience.
+            </p>
+        </div>
     )
 }
 
