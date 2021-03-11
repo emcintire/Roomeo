@@ -28,7 +28,8 @@ class signUp extends Component {
                 }),
             });
             const body = await response.text();
-            this.setState({ responseToPost: body });
+            alert(body);
+            // this.setState({ responseToPost: body });
         }
     };
 
