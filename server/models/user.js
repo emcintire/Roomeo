@@ -48,7 +48,7 @@ const schema = Joi.object({
         .required(),
 });
 
-const updateSchema = Joi.object({
+const updateSchema = Joi.object({ 
     //Validates the user object for updating user
     name: Joi.string().min(1).max(100),
     email: Joi.string().min(1).max(255).email(),
