@@ -30,6 +30,32 @@ router.post('/', async (req, res) => {
     );
 });
 
+
+router.delete('/', auth, async (req, res) => {
+    //Delete a user with the given id
+    const id = getIdFromToken(req.header("x-auth-token"));
+    const user = await User.findByIdAndRemove(id);
+    
+    if (!user)
+    return res
+    .status(404)
+            .send('The user with the given ID was not found.');
+            
+            res.send(user);
+        });
+        
+        router.get('/:id', validateObjectId, async (req, res) => {
+            //Returns the user with the given id
+            const user = await User.findById(req.params.id);
+            
+            if (!user)
+            return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+            
+            res.send(user);
+        });
+        
 router.put('/updateEmail', auth, async (req, res) => {
     const { error } = updateSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -51,22 +77,18 @@ router.put('/updateEmail', auth, async (req, res) => {
     res.send(user);
 });
 
-router.delete('/', auth, async (req, res) => {
-    //Delete a user with the given id
+router.put('/updateName', auth, async (req, res) => {
+    const { error } = updateSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
     const id = getIdFromToken(req.header("x-auth-token"));
-    const user = await User.findByIdAndRemove(id);
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.send(user);
-});
-
-router.get('/:id', validateObjectId, async (req, res) => {
-    //Returns the user with the given id
-    const user = await User.findById(req.params.id);
+    const user = await User.findByIdAndUpdate(
+        id,
+        { name: req.body.name },
+        {
+            new: true,
+        }
+    );
 
     if (!user)
         return res
@@ -77,3 +99,4 @@ router.get('/:id', validateObjectId, async (req, res) => {
 });
 
 module.exports = router;
+        
