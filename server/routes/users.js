@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const auth = require('../middleware/auth');
 const validateObjectId = require('../middleware/validateObjectId');
-const { User, schema, updateSchema } = require('../models/user');
+const { User, schema, updateSchema, getIdFromToken } = require('../models/user');
 
 router.get('/me', auth, async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
@@ -30,12 +30,13 @@ router.post('/', async (req, res) => {
     );
 });
 
-router.put('/updateEmail/:id', auth, async (req, res) => {
+router.put('/updateEmail', auth, async (req, res) => {
     const { error } = updateSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
+    const id = getIdFromToken(req.header("x-auth-token"));
     const user = await User.findByIdAndUpdate(
-        req.params.id,
+        id,
         { email: req.body.email },
         {
             new: true,
@@ -45,15 +46,15 @@ router.put('/updateEmail/:id', auth, async (req, res) => {
     if (!user)
         return res
             .status(404)
-            .send("The user with the given ID was not found.");
+            .send('The user with the given ID was not found.');
 
     res.send(user);
-
 });
 
-router.delete('/:id', [auth, validateObjectId], async (req, res) => {
+router.delete('/', auth, async (req, res) => {
     //Delete a user with the given id
-    const user = await User.findByIdAndRemove(req.params.id);
+    const id = getIdFromToken(req.header("x-auth-token"));
+    const user = await User.findByIdAndRemove(id);
 
     if (!user)
         return res
