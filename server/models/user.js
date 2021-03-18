@@ -35,6 +35,14 @@ const userShema = new mongoose.Schema({
     gender: {
         type: String,
     },
+    bio: {
+        type: String,
+        maxlength: 255,
+    },
+    imgs: {
+        data: Buffer,
+        contentType: String
+    },
     // location: {
     //     type: new mongoose.Schema({
     //         street: {
