@@ -37,12 +37,10 @@ const userShema = new mongoose.Schema({
     },
     bio: {
         type: String,
-        maxlength: 255,
+        maxlength: 512,
     },
-    imgs: {
-        data: Buffer,
-        contentType: String
-    },
+    imgs: [{priority: Number, path: String}],
+
     // location: {
     //     type: new mongoose.Schema({
     //         street: {

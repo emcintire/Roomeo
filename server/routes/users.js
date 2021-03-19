@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
-const upload = require('../middleware/multer')();
+const path = require('path');
+const fs = require('fs');
+const upload = require('../startup/multer')();
 const auth = require('../middleware/auth');
 const validateObjectId = require('../middleware/validateObjectId');
 const {
@@ -12,35 +14,48 @@ const {
     getIdFromToken,
 } = require('../models/user');
 
-router.get('/img', (req, res) => {
-    User.find({}, (err, items) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send('An error occurred', err);
-        } else {
-            res.render('imagesPage', { items: items });
-        }
-    });
-});
+router.get('/', express.static(path.join(__dirname, '../public')));
 
-router.post('/', upload.single('image'), (req, res, next) => {
-    const obj = {
-        img: {
-            data: fs.readFileSync(
-                path.join(__dirname + '/uploads/' + req.file.filename)
-            ),
-            contentType: 'image/png',
-        },
-    };
-    User.create(obj, (err, item) => {
-        if (err) {
-            console.log(err);
+router.post(
+    '/img',
+    upload.single('file'),
+    (req, res) => {
+        const tempPath = req.file.path;
+        const targetPath = path.join(__dirname, './uploads/image.png');
+
+        if (path.extname(req.file.originalname).toLowerCase() === '.png') {
+            fs.rename(tempPath, targetPath, async (err) => {
+                const user = await User.findById('6052331353b606d856f9fb92');
+
+                const obj = { 
+                    priority : user.imgs.length, 
+                    path: tempPath
+                };
+
+                User.findByIdAndUpdate(
+                    user._id, 
+                    { $push: { imgs : obj }},
+                    function (error, success) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log(success);
+                        }
+                    }
+                ); 
+
+                res.status(200).contentType('text/plain').end('File uploaded!');
+            });
         } else {
-            item.save();
-            res.redirect('/');
+            fs.unlink(tempPath, (err) => {
+                res.status(403)
+                    .contentType('text/plain')
+                    .end('Only .png files are allowed!');
+            });
         }
-    });
-});
+        
+    }
+);
 
 router.get('/me', auth, async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
