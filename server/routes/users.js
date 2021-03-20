@@ -22,10 +22,11 @@ router.post(
     (req, res) => {
         const tempPath = req.file.path;
         const targetPath = path.join(__dirname, './uploads/image.png');
+        const id = '6056129e3d0b15ef00bd0220';
 
-        if (path.extname(req.file.originalname).toLowerCase() === '.png') {
+        // if (path.extname(req.file.originalname).toLowerCase() === '.png') {
             fs.rename(tempPath, targetPath, async (err) => {
-                const user = await User.findById('6052331353b606d856f9fb92');
+                const user = await User.findById(id);
 
                 const obj = { 
                     priority : user.imgs.length, 
@@ -46,13 +47,13 @@ router.post(
 
                 res.status(200).contentType('text/plain').end('File uploaded!');
             });
-        } else {
-            fs.unlink(tempPath, (err) => {
-                res.status(403)
-                    .contentType('text/plain')
-                    .end('Only .png files are allowed!');
-            });
-        }
+        // } else {
+        //     fs.unlink(tempPath, (err) => {
+        //         res.status(403)
+        //             .contentType('text/plain')
+        //             .end('Only .png files are allowed!');
+        //     });
+        // }
         
     }
 );
@@ -107,6 +108,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
 });
 
 router.put('/updateEmail', auth, async (req, res) => {
+    //Update email of logged in user
     const { error } = updateSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -128,6 +130,7 @@ router.put('/updateEmail', auth, async (req, res) => {
 });
 
 router.put('/updateName', auth, async (req, res) => {
+    //Updates the name of the logged in user
     const { error } = updateSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -148,7 +151,30 @@ router.put('/updateName', auth, async (req, res) => {
     res.send(user);
 });
 
+router.put('/updateBio', auth, async (req, res) => {
+    //Updates the bio of the logged in user
+    const { error } = updateSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const id = getIdFromToken(req.header('x-auth-token'));
+    const user = await User.findByIdAndUpdate(
+        id,
+        { bio: req.body.bio },
+        {
+            new: true,
+        }
+    );
+
+    if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    res.send(user);
+});
+
 router.put('/updatePassword', auth, async (req, res) => {
+    //Updates the password of the logged in user
     const { error } = updateSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
