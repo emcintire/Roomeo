@@ -173,6 +173,50 @@ router.put('/updateBio', auth, async (req, res) => {
     res.send(user);
 });
 
+router.put('/updateGender', auth, async (req, res) => {
+    //Updates the gender of the logged in user
+    const { error } = updateSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const id = getIdFromToken(req.header('x-auth-token'));
+    const user = await User.findByIdAndUpdate(
+        id,
+        { gender: req.body.gender },
+        {
+            new: true,
+        }
+    );
+
+    if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    res.send(user);
+});
+
+router.put('/updateAge', auth, async (req, res) => {
+    //Updates the age of the logged in user
+    const { error } = updateSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const id = getIdFromToken(req.header('x-auth-token'));
+    const user = await User.findByIdAndUpdate(
+        id,
+        { age: req.body.age },
+        {
+            new: true,
+        }
+    );
+
+    if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    res.send(user);
+});
+
 router.put('/updatePassword', auth, async (req, res) => {
     //Updates the password of the logged in user
     const { error } = updateSchema.validate(req.body);
