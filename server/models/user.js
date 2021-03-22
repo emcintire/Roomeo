@@ -52,6 +52,7 @@ const userShema = new mongoose.Schema({
             default: ''
         } 
     }],
+    interests: [String]
     // location: {
     //     type: new mongoose.Schema({
     //         street: {

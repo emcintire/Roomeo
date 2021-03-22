@@ -16,47 +16,34 @@ const {
 
 router.get('/', express.static(path.join(__dirname, '../public')));
 
-router.post(
-    '/img',
-    upload.single('file'),
-    (req, res) => {
-        const tempPath = req.file.path;
-        const targetPath = path.join(__dirname, './uploads/image.png');
-        const id = '6056129e3d0b15ef00bd0220';
+router.post('/img', upload.single('file'), (req, res) => {
+    const id = '6056928c143b00f109609135';
+    const tempPath = req.file.path;
+    const targetPath = path.join(__dirname, './uploads/image.png');
 
-        // if (path.extname(req.file.originalname).toLowerCase() === '.png') {
-            fs.rename(tempPath, targetPath, async (err) => {
-                const user = await User.findById(id);
+    fs.rename(tempPath, targetPath, async (err) => {
+        const user = await User.findById(id);
 
-                const obj = { 
-                    priority : user.imgs.length, 
-                    path: tempPath
-                };
+        const obj = {
+            priority: user.imgs.length,
+            path: tempPath,
+        };
 
-                User.findByIdAndUpdate(
-                    user._id, 
-                    { $push: { imgs : obj }},
-                    function (error, success) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log(success);
-                        }
-                    }
-                ); 
+        User.findByIdAndUpdate(
+            user._id,
+            { $push: { imgs: obj } },
+            function (error, success) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log(success);
+                }
+            }
+        );
 
-                res.status(200).contentType('text/plain').end('File uploaded!');
-            });
-        // } else {
-        //     fs.unlink(tempPath, (err) => {
-        //         res.status(403)
-        //             .contentType('text/plain')
-        //             .end('Only .png files are allowed!');
-        //     });
-        // }
-        
-    }
-);
+        res.status(200).contentType('text/plain').end('File uploaded!');
+    });
+});
 
 router.get('/me', auth, async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
@@ -64,7 +51,7 @@ router.get('/me', auth, async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    //Create a user with properties: name, email, password
+    //Creates a user with the properties: name, email, password
     const { error } = schema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -72,7 +59,7 @@ router.post('/', async (req, res) => {
     if (user) return res.status(400).send('User already registered');
 
     user = new User(_.pick(req.body, ['name', 'email', 'password']));
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10); //Hash the password
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
 
@@ -83,7 +70,7 @@ router.post('/', async (req, res) => {
 });
 
 router.delete('/', auth, async (req, res) => {
-    //Delete a user with the given id
+    //Deletes the user with the given id
     const id = getIdFromToken(req.header('x-auth-token'));
     const user = await User.findByIdAndRemove(id);
 
@@ -108,7 +95,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
 });
 
 router.put('/updateEmail', auth, async (req, res) => {
-    //Update email of logged in user
+    //Updates the email of the logged in user
     const { error } = updateSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -217,11 +204,49 @@ router.put('/updateAge', auth, async (req, res) => {
     res.send(user);
 });
 
+router.put('/updateInterests', auth, async (req, res) => {
+    //Updates the interests of the logged in user
+    const id = getIdFromToken(req.header('x-auth-token'));
+
+    //Clears the interests array
+    await User.findByIdAndUpdate(
+        id, 
+        { interests: new Array()},
+        function (error, success) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(success);
+            }
+        }
+    );
+
+    const user = await User.findByIdAndUpdate(
+        id,
+        { $addToSet: { interests : { $each: req.body.interests }}},
+        function (error, success) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(success);
+            }
+        }
+    );
+
+    if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    res.send(user);
+});
+
 router.put('/updatePassword', auth, async (req, res) => {
     //Updates the password of the logged in user
     const { error } = updateSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
+    //Hashes the users password for security
     const salt = await bcrypt.genSalt(10);
     const newPassword = await bcrypt.hash(req.body.password, salt);
 
