@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const path = require('path');
+const nodegeocoder = require('node-geocoder');
 const fs = require('fs');
 const upload = require('../startup/multer')();
 const auth = require('../middleware/auth');
@@ -210,8 +211,8 @@ router.put('/updateInterests', auth, async (req, res) => {
 
     //Clears the interests array
     await User.findByIdAndUpdate(
-        id, 
-        { interests: new Array()},
+        id,
+        { interests: new Array() },
         function (error, success) {
             if (error) {
                 console.log(error);
@@ -223,7 +224,7 @@ router.put('/updateInterests', auth, async (req, res) => {
 
     const user = await User.findByIdAndUpdate(
         id,
-        { $addToSet: { interests : { $each: req.body.interests }}},
+        { $addToSet: { interests: { $each: req.body.interests } } },
         function (error, success) {
             if (error) {
                 console.log(error);
@@ -266,5 +267,51 @@ router.put('/updatePassword', auth, async (req, res) => {
 
     res.send(user);
 });
+
+router.put('/updateLocation', async (req, res) => {
+    // const { error } = updateSchema.validate(req.body);
+    // if (error) return res.status(400).send(error.details[0].message);
+
+    const options = {
+        provider: 'mapquest',
+        httpAdapter: 'https',
+        apiKey: 'HEEOmggzJMuZBvhQTMzHg5NzjAeBaIvo',
+    };
+
+    const geocoder = nodegeocoder(options);
+    const result = await geocoder.geocode(
+        req.body.address,
+        function (err) {
+            if (err) {
+                res.send(err);
+            }
+        }
+    );
+
+    const coordinates = [ result[0].latitude, result[0].longitude];
+
+    const id = getIdFromToken(req.header('x-auth-token'));
+    const user = await User.findByIdAndUpdate(
+        id,
+        {
+            location: {
+                type: 'Point',
+                address: result[0].formattedAddress,
+                coords: coordinates,
+            },
+        },
+        {
+            new: true,
+        }
+    );
+
+    if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    res.send(user);
+});
+
 
 module.exports = router;

@@ -52,26 +52,12 @@ const userShema = new mongoose.Schema({
             default: ''
         } 
     }],
-    interests: [String]
-    // location: {
-    //     type: new mongoose.Schema({
-    //         street: {
-    //             type: String,
-    //             minlength: 2,
-    //             maxlength: 100,
-    //             default: ''
-    //         },
-    //         city: {
-    //             type: String,
-    //             minlength: 2,
-    //             maxlength: 100,
-    //             default: ''
-    //         },
-    //         coords: {
-    //             type: Point
-    //         }
-    //     })
-    // }
+    interests: [String],
+    location: {
+        type: { type: String },
+        address: { type: String },
+        coords: [],
+    }
 });
 
 userShema.methods.generateAuthToken = function () {
