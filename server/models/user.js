@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const userShema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     //Mongoose user schema
     isAdmin: {
         type: Boolean,
@@ -54,21 +54,35 @@ const userShema = new mongoose.Schema({
     }],
     interests: [String],
     location: {
-        type: { type: String },
+        type: { 
+            type: String,
+            default: 'Point', 
+        },
         address: { type: String },
-        coords: [],
-    }
+        coordinates: {
+            type: [Number],
+            default: [0,0]
+        },
+    },
+    likes: [String],
+    dislikes: [String],
+    matches: [{
+        time : { type : Date, default: Date.now },
+        user: { type : String }
+    }]
 });
 
-userShema.methods.generateAuthToken = function () {
+userSchema.index({ location: '2dsphere' });
+
+userSchema.methods.generateAuthToken = function () {
     //Generates a json web token used for logging in users
     return jwt.sign(
         { _id: this._id, isAdmin: this.isAdmin },
         config.get('jwtPrivateKey')
-    );
-};
-
-const User = mongoose.model('User', userShema);
+        );
+    };
+    
+const User = mongoose.model('User', userSchema);
 
 const schema = Joi.object({
     //Validates the user object when the user is first created
@@ -95,6 +109,23 @@ const getIdFromToken = function (token) {
     return decoded._id;
 };
 
+const milesToRadian = function(miles){
+    const earthRadiusInMiles = 3963;
+    return miles / earthRadiusInMiles;
+};
+
+Array.prototype.remove_by_value = function(val) {
+    for (var i = 0; i < this.length; i++) {
+      if (this[i] === val) {
+        this.splice(i, 1);
+        i--;
+      }
+    }
+    return this;
+};
+
+exports.remove_by_value = this.remove_by_value;
+exports.milesToRadian = milesToRadian;
 exports.getIdFromToken = getIdFromToken;
 exports.schema = schema;
 exports.updateSchema = updateSchema;
