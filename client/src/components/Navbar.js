@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import {FaBars, FaTimes, FaBed} from 'react-icons/fa'
-import './Navbar.css';
+import { MdArrowDropDown } from 'react-icons/md';
+import './Navbar.css'; 
 import { Button } from './Button';
 import { IconContext } from 'react-icons/lib'
+import Dropdown from './Dropdown';
 
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
+    const [dropdown, setDropdown] = useState(false);
 
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
@@ -17,6 +20,22 @@ function Navbar() {
             setButton(false)
         } else{
             setButton(true)
+        }
+    };
+
+    const onMouseEnter = () => {
+        if(window.innerWidth <= 960){
+            setDropdown(false)
+        } else{
+            setDropdown(true)
+        }
+    };
+
+    const onMouseLeave = () => {
+        if(window.innerWidth <= 960){
+            setDropdown(false)
+        } else{
+            setDropdown(false)
         }
     };
 
@@ -48,6 +67,15 @@ function Navbar() {
                             <Link to='/about-us' className='nav-links' onClick={closeMobileMenu}>
                                 About Us
                             </Link>
+                        </li>
+                        <li className='nav-item'
+                            onMouseEnter={onMouseEnter}
+                            onMouseLeave={onMouseLeave}
+                        >
+                            <Link to='/profile' className='nav-links' onClick={closeMobileMenu}>
+                                Profile < MdArrowDropDown />
+                            </Link>
+                            {dropdown && <Dropdown />}
                         </li>
                         <li className='nav-btn'>
                             {button ? (
@@ -81,6 +109,7 @@ function Navbar() {
                         </li>
                     </ul>
                 </div>
+ 
             </div>
         </IconContext.Provider>
         </>
