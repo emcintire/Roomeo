@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const userShema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     //Mongoose user schema
     isAdmin: {
         type: Boolean,
@@ -31,49 +31,61 @@ const userShema = new mongoose.Schema({
         type: Number,
         min: 18,
         max: 200,
+        default: 18,
     },
     gender: {
         type: String,
+        default: '',
     },
     bio: {
         type: String,
-        maxlength: 255,
+        maxlength: 512,
+        default: '',
     },
-    imgs: {
-        data: Buffer,
-        contentType: String
+    imgs: [{ 
+        priority: {
+            type: Number,
+            default: 0
+        },
+        path: {
+            type: String,
+            default: ''
+        } 
+    }],
+    interests: [String],
+    location: {
+        type: { 
+            type: String,
+            default: 'Point', 
+        },
+        address: { type: String },
+        coordinates: {
+            type: [Number],
+            default: [0,0]
+        },
     },
-    // location: {
-    //     type: new mongoose.Schema({
-    //         street: {
-    //             type: String,
-    //             minlength: 2,
-    //             maxlength: 100,
-    //         },
-    //         city: {
-    //             type: String,
-    //             minlength: 2,
-    //             maxlength: 100,
-    //         },
-    //         coords: {
-    //             type: Point
-    //         }
-    //     })
-    // }
+    likes: [String],
+    dislikes: [String],
+    matches: [{
+        time : { type : Date, default: Date.now },
+        user: { type : String }
+    }]
 });
 
-userShema.methods.generateAuthToken = function () {
+userSchema.index({ location: '2dsphere' });
+
+userSchema.methods.generateAuthToken = function () {
     //Generates a json web token used for logging in users
     return jwt.sign(
         { _id: this._id, isAdmin: this.isAdmin },
         config.get('jwtPrivateKey')
-    );
-};
-
-const User = mongoose.model('User', userShema);
+        );
+    };
+    
+const User = mongoose.model('User', userSchema);
 
 const schema = Joi.object({
-    //Validates the user object
+    //Validates the user object when the user is first created
     name: Joi.string().min(1).max(100).required(),
     email: Joi.string().min(1).max(255).required().email(),
     password: Joi.string()
@@ -82,19 +94,38 @@ const schema = Joi.object({
 });
 
 const updateSchema = Joi.object({
-    //Validates the user object for updating user
+    //Validates the user object for updating user after initial user creation
     name: Joi.string().min(1).max(100),
     email: Joi.string().min(1).max(255).email(),
-    password: Joi.string().pattern(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-    ),
+    password: Joi.string().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+    bio: Joi.string().max(512),
+    gender: Joi.string(),
+    age: Joi.number().min(18).max(200),
 });
 
 const getIdFromToken = function (token) {
-    const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
+    //Decodes the json web token and returns the users id
+    const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
     return decoded._id;
 };
 
+const milesToRadian = function(miles){
+    const earthRadiusInMiles = 3963;
+    return miles / earthRadiusInMiles;
+};
+
+Array.prototype.remove_by_value = function(val) {
+    for (var i = 0; i < this.length; i++) {
+      if (this[i] === val) {
+        this.splice(i, 1);
+        i--;
+      }
+    }
+    return this;
+};
+
+exports.remove_by_value = this.remove_by_value;
+exports.milesToRadian = milesToRadian;
 exports.getIdFromToken = getIdFromToken;
 exports.schema = schema;
 exports.updateSchema = updateSchema;
