@@ -8,7 +8,8 @@ import SignIn from './components/pages/SignIn/sign-in';
 import SignUp from './components/pages/SignUp/sign-up';
 import Terms from './components/pages/Terms/terms';
 import Privacy from './components/pages/Privacy/privacy';
-
+import UserAccount from './components/pages/myAccount/UserAccount';
+import UserProfile from './components/pages/myAccount/UserProfile';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path='/about-us/' component={AboutUs}  />
         <Route path='/sign-up/' component={SignUp}  />
         <Route path='/sign-in/' component={SignIn}  />
+        <Route path='/UserAccount/' component={UserAccount}  />
+        <Route path='/UserProfile/' component={UserProfile}  />
       </Switch>
       <Route path='/terms/' component={Terms}  />
       <Route path='/privacy/' component={Privacy}  />
