@@ -6,13 +6,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* max-width: 500px; */
+    /* max-width: 500px;  */
     /* position: relative;
     border-radius: 10px;
     height: 600px;
     display: inline-block; */
 }
-
+.form-container-pic {
+    margin: auto;
+    width: 100%;
+    background-color: #ffffff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .form-content{
     /* border-radius: 0 10px 10px 0; */
     padding-top: 50px;
@@ -39,6 +47,14 @@
 
 .form h1 {
     font-size: 2rem;
+    text-align: center;
+    width: 80%;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+
+.form h2 {
     text-align: start;
     width: 80%;
     margin-bottom: 1rem;
@@ -86,7 +102,7 @@
     padding-left: 10px;
     outline: none;
     border-radius: 2px;
-    height: 100px;
+    height: 60px;
     width: 100%;
     border: none;
   }
