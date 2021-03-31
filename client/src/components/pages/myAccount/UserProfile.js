@@ -1,56 +1,77 @@
 import React, { Component } from 'react';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 import '../forms.css';
 
 class UserProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = { name: '', bio: '', age: '', gender: '', location: '' };
+        this.state = { name: '', bio: '', age: '', gender: '', address: '' };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit = async (event) => {
-        event.preventDefault();
+    componentDidMount = async () => {
+        let response = await fetch('/api/users/getUserData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userToken: localStorage.getItem('token'),
+            }),
+        });
 
-        if (this.state.password !== this.state.confirmPassword) {
-            alert("Passwords don't match");
+        const body = await response.json();
+        console.log(body);
+
+        if (response.status !== 200) {
+            alert(body);
         } else {
-            const response = await fetch('/api/users/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: this.state.name,
-                    bio: this.state.bio,
-                    age: this.state.age,
-                    gender: this.state.gender,
-                    location: this.state.location,
-                }),
+            this.setState({
+                name: body.name || '',
+                bio: body.bio || '',
+                age: body.age || '',
+                gender: body.gender || '',
+                address: body.location.address || '',
             });
-
-            const body = await response.text();
-            if (response.status !== 200) {
-                alert(body);
-            } else {
-                this.props.history.push('/UserProfile');
-            }
         }
     };
 
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value,
-        });
-    }
+    handleSubmit = async (event) => {
+        event.preventDefault();
 
-    getData = async () => {
-        const response = await fetch('/api/users/', {
-            method: 'POST',
+        const response = await fetch('/api/users/updateProfile', {
+            method: 'PUT',
             headers: {
-                'x-auth-token': this.state.token,
-            }
+                'Content-Type': 'application/json',
+                'x-auth-token': localStorage.getItem('token'),
+            },
+            body: JSON.stringify({
+                name: this.state.name,
+                bio: this.state.bio,
+                age: this.state.age,
+                gender: this.state.gender,
+                address: this.state.address,
+            }),
         });
+
+        const body = await response.text();
+        if (response.status !== 200) {
+            alert(body);
+        } else {
+            NotificationManager.success('User Profile Updated', 'Success!', 3000);
+            this.props.history.push('/UserProfile');
+        }
+    };
+
+    // handleChange (event) {
+    //     this.setState({
+    //         [event.target.name]: event.target.value,
+    //     });
+    // }
+    handleChange = (e, key) => {
+        this.setState({[key]: e.target.value});
     }
 
     render() {
@@ -69,18 +90,18 @@ class UserProfile extends Component {
                                 type="text"
                                 placeholder="Enter your Full Name"
                                 value={this.state.name}
-                                onChange={this.handleChange}
+                                onChange={(e) => this.handleChange(e, 'name')}
                             />
                         </div>
                         <div className="form-inputs">
                             <label className="form-label">Update Bio</label>
-                            <input
+                            <textarea
                                 className="form-input-bio"
                                 name="bio"
                                 type="text"
                                 placeholder="Enter your Bio"
                                 value={this.state.bio}
-                                onChange={this.handleChange}
+                                onChange={(e) => this.handleChange(e, 'bio')}
                             />
                         </div>
                         <div className="form-inputs">
@@ -93,23 +114,22 @@ class UserProfile extends Component {
                                 type="text"
                                 placeholder="Age"
                                 value={this.state.age}
-                                onChange={this.handleChange}
+                                onChange={(e) => this.handleChange(e, 'age')}
                             />
                         </div>
-
                         <div className="form-inputs">
                             <label htmlFor="text" className="form-label">
                                 Gender
                             </label>
-                            <input
+                            <select
                                 className="form-input"
-                                name="gender"
-                                type="text"
-                                placeholder="Gender"
                                 value={this.state.gender}
-                                onChange={this.handleChange}
-
-                            />
+                                onChange={(e) => this.handleChange(e, 'gender')}
+                            >
+                                <option name="male"> Male</option>
+                                <option name="female">Female</option>
+                                <option name="other">Other</option>
+                            </select>
                         </div>
                         <div className="form-inputs">
                             <label htmlFor="text" className="form-label">
@@ -117,9 +137,11 @@ class UserProfile extends Component {
                             </label>
                             <input
                                 className="form-input"
-                                name="location"
+                                name="address"
                                 type="text"
                                 placeholder="123 Sesame St Plattsburgh, NY United States"
+                                value={this.state.address}
+                                onChange={(e) => this.handleChange(e, 'address')}
                             />
                         </div>
                         <div>
@@ -129,6 +151,7 @@ class UserProfile extends Component {
                         </div>
                     </form>
                 </div>
+                <NotificationContainer/>
             </div>
         );
     }

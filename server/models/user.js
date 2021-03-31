@@ -101,7 +101,7 @@ const updateSchema = Joi.object({
     bio: Joi.string().max(512),
     gender: Joi.string(),
     age: Joi.number().min(18).max(200),
-    location: Joi.string().max(200),
+    address: Joi.string().max(200),
     interests: Joi.array().items(Joi.string())
 });
 

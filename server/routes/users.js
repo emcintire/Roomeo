@@ -33,9 +33,7 @@ router.post('/', async (req, res) => {
     await user.save();
 
     const token = user.generateAuthToken();
-    res.header('x-auth-token', token).send(
-        _.pick(user, ['_id', 'name', 'email'])
-    );
+    res.send(token);
 });
 
 router.delete('/', auth, async (req, res) => {
@@ -51,21 +49,21 @@ router.delete('/', auth, async (req, res) => {
     res.status(200).send();
 });
 
-router.get('/getuser:id', validateObjectId, async (req, res) => {
-    //Returns the user with the given id
-    const user = await User.findById(req.params.id);
+// router.get('/getuser:id', validateObjectId, async (req, res) => {
+//     //Returns the user with the given id
+//     const user = await User.findById(req.params.id);
 
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
+//     if (!user)
+//         return res
+//             .status(404)
+//             .send('The user with the given ID was not found.');
 
-    res.send(user);
-});
+//     res.send(user);
+// });
 
-router.get('/', async (req, res) => {
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = User.findById(id);
+router.post('/getUserData', async (req, res) => {
+    const id = getIdFromToken(req.body.userToken);
+    const user = await User.findById(id);
 
     if (!user)
         return res
@@ -111,7 +109,7 @@ router.put('/updateProfile', auth, async (req, res) => {
     const id = getIdFromToken(req.header('x-auth-token'));
 
     let user = await User.findByIdAndUpdate(id, {
-        $set: _.omit(req.body, req.body.location),
+        $set: _.omit(req.body, req.body.address),
         // location: {
         //     type: 'Point',
         //     address: result[0].formattedAddress,
@@ -120,7 +118,7 @@ router.put('/updateProfile', auth, async (req, res) => {
         // },
     });
 
-    if (req.body.location) {
+    if (req.body.address) {
         //Updates the location of the logged in user
         const options = {
             provider: 'mapquest',

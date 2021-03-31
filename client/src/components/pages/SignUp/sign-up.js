@@ -31,6 +31,7 @@ class signUp extends Component {
             if (response.status !== 200) {
                 alert(body);
             } else {
+                localStorage.setItem('token', body);
                 this.props.history.push('/');
             }
         }

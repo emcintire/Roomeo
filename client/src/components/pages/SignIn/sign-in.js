@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import '../forms.css';
 
 class signIn extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '', token: '' };
+        this.state = { email: '', password: '' };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -28,9 +27,8 @@ class signIn extends Component {
         if (response.status !== 200) {
             alert(body);
         } else {
-            this.setState({ token: body });
-            localStorage.setItem('token', this.state.token);
-            this.props.history.push('/');
+            localStorage.setItem('token', body);
+            // this.props.history.push('/');
         }
     };
 
