@@ -72,7 +72,7 @@ function Navbar() {
                             onMouseEnter={onMouseEnter}
                             onMouseLeave={onMouseLeave}
                         >
-                            <Link to='/profile' className='nav-links' onClick={closeMobileMenu}>
+                            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
                                 Profile < MdArrowDropDown />
                             </Link>
                             {dropdown && <Dropdown />}
