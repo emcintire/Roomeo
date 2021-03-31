@@ -7,6 +7,7 @@ const nodegeocoder = require('node-geocoder');
 const fs = require('fs');
 const upload = require('../startup/multer')();
 const auth = require('../middleware/auth');
+const async = require('../middleware/async');
 const validateObjectId = require('../middleware/validateObjectId');
 const {
     User,
@@ -16,7 +17,7 @@ const {
     milesToRadian,
 } = require('../models/user');
 
-router.get('/', express.static(path.join(__dirname, '../public')));
+// router.get('/', express.static(path.join(__dirname, '../public')));
 
 router.post('/', async (req, res) => {
     //Creates a user with the properties: name, email, password
@@ -62,6 +63,18 @@ router.get('/getuser:id', validateObjectId, async (req, res) => {
     res.send(user);
 });
 
+router.get('/', async (req, res) => {
+    const id = getIdFromToken(req.header('x-auth-token'));
+    const user = User.findById(id);
+
+    if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    res.status(200).send(user);
+});
+
 router.post('/img', upload.single('file'), (req, res) => {
     const id = '6056928c143b00f109609135';
     const tempPath = req.file.path;
@@ -89,6 +102,57 @@ router.post('/img', upload.single('file'), (req, res) => {
 
         res.status(200).contentType('text/plain').end('File uploaded!');
     });
+});
+
+router.put('/updateProfile', auth, async (req, res) => {
+    const { error } = updateSchema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const id = getIdFromToken(req.header('x-auth-token'));
+
+    let user = await User.findByIdAndUpdate(id, {
+        $set: _.omit(req.body, req.body.location),
+        // location: {
+        //     type: 'Point',
+        //     address: result[0].formattedAddress,
+        //     coordinates: coords,
+        //     index: '2d',
+        // },
+    });
+
+    if (req.body.location) {
+        //Updates the location of the logged in user
+        const options = {
+            provider: 'mapquest',
+            httpAdapter: 'https',
+            apiKey: 'HEEOmggzJMuZBvhQTMzHg5NzjAeBaIvo',
+        };
+
+        //Converts address string to coordinates
+        const geocoder = nodegeocoder(options);
+        const result = await geocoder.geocode(req.body.address, function (err) {
+            if (err) {
+                res.send(err);
+            }
+        });
+        const coords = [result[0].longitude, result[0].latitude];
+
+        user = await User.findByIdAndUpdate(id, {
+            location: {
+                type: 'Point',
+                address: result[0].formattedAddress,
+                coordinates: coords,
+                index: '2d',
+            },
+        });
+    }
+
+    if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    res.status(200).send();
 });
 
 router.put('/updateEmail', auth, async (req, res) => {
@@ -206,29 +270,11 @@ router.put('/updateInterests', auth, async (req, res) => {
     const id = getIdFromToken(req.header('x-auth-token'));
 
     //Clears the interests array
-    await User.findByIdAndUpdate(
-        id,
-        { interests: new Array() },
-        function (error, success) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(success);
-            }
-        }
-    );
+    await User.findByIdAndUpdate(id, { interests: new Array() });
 
-    const user = await User.findByIdAndUpdate(
-        id,
-        { $addToSet: { interests: { $each: req.body.interests } } },
-        function (error, success) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(success);
-            }
-        }
-    );
+    const user = await User.findByIdAndUpdate(id, {
+        $addToSet: { interests: { $each: req.body.interests } },
+    });
 
     if (!user)
         return res

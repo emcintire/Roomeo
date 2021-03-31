@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import '../forms.css';
 
 class signIn extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '' };
+        this.state = { email: '', password: '', token: '' };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -12,7 +13,7 @@ class signIn extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await fetch('/api/auth', {
+        let response = await fetch('/api/auth', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,8 +24,14 @@ class signIn extends Component {
             }),
         });
         const body = await response.text();
-        alert(body);
-        // this.setState({ responseToPost: body });
+
+        if (response.status !== 200) {
+            alert(body);
+        } else {
+            this.setState({ token: body });
+            localStorage.setItem('token', this.state.token);
+            this.props.history.push('/');
+        }
     };
 
     handleChange(event) {
