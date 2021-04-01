@@ -137,25 +137,43 @@ router.put('/updateProfile', auth, async (req, res) => {
 });
 
 router.put('/updateAccount', auth, async (req, res) => {
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    // const { error } = updateSchema.validate(req.body);
+    // if (error) return res.status(400).send(error.details[0].message);
 
     const id = getIdFromToken(req.header('x-auth-token'));
-    
-    //Hashes the users password for security
-    const salt = await bcrypt.genSalt(10);
-    const newPassword = await bcrypt.hash(req.body.password, salt);
+    let user = await User.findById(id);
 
-    const user = await User.findByIdAndUpdate(
-        id,
-        { 
-            email: req.body.email,
-            password: newPassword, 
-        },
-        {
-            new: true,
-        }
-    );
+    if (req.body.oldPassword) {
+        const validPassword = await bcrypt.compare(req.body.oldPassword, user.password)
+        if (!validPassword) return res.status(400).send('Invalid email or password');
+        
+        //Hashes the users password for security
+        const salt = await bcrypt.genSalt(10);
+        const newPassword = await bcrypt.hash(req.body.newPassword, salt);
+    
+    
+        user = await User.findByIdAndUpdate(
+            id,
+            { 
+                email: req.body.email,
+                password: newPassword, 
+            },
+            {
+                new: true,
+            }
+        );
+    } else {
+        user = await User.findByIdAndUpdate(
+            id,
+            { 
+                email: req.body.email,
+            },
+            {
+                new: true,
+            }
+        );
+    }
+
 
     if (!user)
     return res

@@ -48,7 +48,8 @@ class UserAccount extends Component {
                 },
                 body: JSON.stringify({
                     email: this.state.email,
-                    password: this.state.newPassword,
+                    newPassword: this.state.newPassword,
+                    oldPassword: this.state.oldPassword,
                 }),
             });
 
