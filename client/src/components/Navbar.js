@@ -153,25 +153,6 @@ function Navbar() {
                             className="navbar-logo"
                             onClick={closeMobileMenu}
                         >
-<<<<<<< HEAD
-                            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
-                                Profile < MdArrowDropDown />
-                            </Link>
-                            {dropdown && <Dropdown />}
-                        </li>
-                        <li className='nav-btn'>
-                            {button ? (
-                                <Link to='/sign-in' className='btn-link'>
-                                    <Button buttonStyle='btn--outline'>
-                                        SIGN IN
-                                    </Button>
-                                </Link>
-                            ) : (
-                                <Link to='/sign-in' className='btn-link' onClick={closeMobileMenu}>
-                                    <Button buttonStyle='btn--outline' buttonSize='btn--mobile'>
-                                        SIGN IN
-                                    </Button>
-=======
                             <FaBed className="navbar-icon" />
                             ROOMEO
                         </Link>
@@ -190,7 +171,6 @@ function Navbar() {
                                     onClick={closeMobileMenu}
                                 >
                                     Home
->>>>>>> origin/sprint-2
                                 </Link>
                             </li>
                             <li className="nav-item">
