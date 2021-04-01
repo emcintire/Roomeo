@@ -151,7 +151,6 @@ router.put('/updateAccount', auth, async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const newPassword = await bcrypt.hash(req.body.newPassword, salt);
     
-    
         user = await User.findByIdAndUpdate(
             id,
             { 
