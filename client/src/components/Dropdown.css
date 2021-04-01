@@ -11,9 +11,6 @@
     cursor: pointer;
 }
 
-.dropdown-menu li:hover{
-    background: #699fa1;
-}
 
 .dropdown-menu.clicked{
     display: none;
@@ -26,4 +23,9 @@
     text-decoration: none;
     color: black;
     padding: 16px;
+}
+
+.dropdown-menu li:hover{
+    background: #699fa1;
+    color: white;
 }

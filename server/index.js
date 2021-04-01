@@ -11,11 +11,6 @@ require('./startup/routes')(app);
 require('./startup/db')();
 require('./startup/validation')();
 
-const corsOptions = {
-    exposedHeaders: 'x-auth-token',
-    'Access-Control-Allow-Origin': '*',
-};
-
 morganBody(app);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

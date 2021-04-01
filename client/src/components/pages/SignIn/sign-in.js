@@ -28,7 +28,7 @@ class signIn extends Component {
             alert(body);
         } else {
             localStorage.setItem('token', body);
-            // this.props.history.push('/');
+            this.props.history.push('/');
         }
     };
 

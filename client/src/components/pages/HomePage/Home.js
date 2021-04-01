@@ -15,7 +15,7 @@ function Home() {
           {/* <HeroSection {...homeObjTwo} />   */}
           {/* <HeroSection {...homeObjFour} />     */}
         </>
-    )
+    );
 }
 
 export default Home

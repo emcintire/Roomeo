@@ -16,6 +16,7 @@ const {
     getIdFromToken,
     milesToRadian,
 } = require('../models/user');
+const { send } = require('process');
 
 // router.get('/', express.static(path.join(__dirname, '../public')));
 
@@ -49,18 +50,6 @@ router.delete('/', auth, async (req, res) => {
     res.status(200).send();
 });
 
-// router.get('/getuser:id', validateObjectId, async (req, res) => {
-//     //Returns the user with the given id
-//     const user = await User.findById(req.params.id);
-
-//     if (!user)
-//         return res
-//             .status(404)
-//             .send('The user with the given ID was not found.');
-
-//     res.send(user);
-// });
-
 router.post('/getUserData', async (req, res) => {
     const id = getIdFromToken(req.body.userToken);
     const user = await User.findById(id);
@@ -74,20 +63,20 @@ router.post('/getUserData', async (req, res) => {
 });
 
 router.post('/img', upload.single('file'), (req, res) => {
-    const id = '6056928c143b00f109609135';
+    const id = getIdFromToken(req.header('x-auth-token'));
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, './uploads/image.png');
 
     fs.rename(tempPath, targetPath, async (err) => {
-        const user = await User.findById(id);
+        let user = await User.findById(id);
 
         const obj = {
             priority: user.imgs.length,
             path: tempPath,
         };
 
-        User.findByIdAndUpdate(
-            user._id,
+        user = User.findByIdAndUpdate(
+            id,
             { $push: { imgs: obj } },
             function (error, success) {
                 if (error) {
@@ -98,7 +87,7 @@ router.post('/img', upload.single('file'), (req, res) => {
             }
         );
 
-        res.status(200).contentType('text/plain').end('File uploaded!');
+        res.status(200).send();
     });
 });
 
@@ -110,12 +99,6 @@ router.put('/updateProfile', auth, async (req, res) => {
 
     let user = await User.findByIdAndUpdate(id, {
         $set: _.omit(req.body, req.body.address),
-        // location: {
-        //     type: 'Point',
-        //     address: result[0].formattedAddress,
-        //     coordinates: coords,
-        //     index: '2d',
-        // },
     });
 
     if (req.body.address) {
@@ -153,189 +136,21 @@ router.put('/updateProfile', auth, async (req, res) => {
     res.status(200).send();
 });
 
-router.put('/updateEmail', auth, async (req, res) => {
-    //Updates the email of the logged in user
+router.put('/updateAccount', auth, async (req, res) => {
     const { error } = updateSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { email: req.body.email },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateName', auth, async (req, res) => {
-    //Updates the name of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { name: req.body.name },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateBio', auth, async (req, res) => {
-    //Updates the bio of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { bio: req.body.bio },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateGender', auth, async (req, res) => {
-    //Updates the gender of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { gender: req.body.gender },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateAge', auth, async (req, res) => {
-    //Updates the age of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { age: req.body.age },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateInterests', auth, async (req, res) => {
-    //Updates the interests of the logged in user
-    const id = getIdFromToken(req.header('x-auth-token'));
-
-    //Clears the interests array
-    await User.findByIdAndUpdate(id, { interests: new Array() });
-
-    const user = await User.findByIdAndUpdate(id, {
-        $addToSet: { interests: { $each: req.body.interests } },
-    });
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updatePassword', auth, async (req, res) => {
-    //Updates the password of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
+    
     //Hashes the users password for security
     const salt = await bcrypt.genSalt(10);
     const newPassword = await bcrypt.hash(req.body.password, salt);
 
-    const id = getIdFromToken(req.header('x-auth-token'));
     const user = await User.findByIdAndUpdate(
         id,
-        { password: newPassword },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateLocation', auth, async (req, res) => {
-    //Updates the location of the logged in user
-    const options = {
-        provider: 'mapquest',
-        httpAdapter: 'https',
-        apiKey: 'HEEOmggzJMuZBvhQTMzHg5NzjAeBaIvo',
-    };
-
-    //Converts address string to coordinates
-    const geocoder = nodegeocoder(options);
-    const result = await geocoder.geocode(req.body.address, function (err) {
-        if (err) {
-            res.send(err);
-        }
-    });
-
-    const coords = [result[0].longitude, result[0].latitude];
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        {
-            location: {
-                type: 'Point',
-                address: result[0].formattedAddress,
-                coordinates: coords,
-                index: '2d',
-            },
+        { 
+            email: req.body.email,
+            password: newPassword, 
         },
         {
             new: true,
@@ -343,9 +158,9 @@ router.put('/updateLocation', auth, async (req, res) => {
     );
 
     if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
+    return res
+        .status(404)
+        .send('The user with the given ID was not found.');
 
     res.status(200).send();
 });
