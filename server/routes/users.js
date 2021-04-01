@@ -7,6 +7,7 @@ const nodegeocoder = require('node-geocoder');
 const fs = require('fs');
 const upload = require('../startup/multer')();
 const auth = require('../middleware/auth');
+const async = require('../middleware/async');
 const validateObjectId = require('../middleware/validateObjectId');
 const {
     User,
@@ -15,8 +16,9 @@ const {
     getIdFromToken,
     milesToRadian,
 } = require('../models/user');
+const { send } = require('process');
 
-router.get('/', express.static(path.join(__dirname, '../public')));
+// router.get('/', express.static(path.join(__dirname, '../public')));
 
 router.post('/', async (req, res) => {
     //Creates a user with the properties: name, email, password
@@ -32,9 +34,7 @@ router.post('/', async (req, res) => {
     await user.save();
 
     const token = user.generateAuthToken();
-    res.header('x-auth-token', token).send(
-        _.pick(user, ['_id', 'name', 'email'])
-    );
+    res.send(token);
 });
 
 router.delete('/', auth, async (req, res) => {
@@ -50,33 +50,33 @@ router.delete('/', auth, async (req, res) => {
     res.status(200).send();
 });
 
-router.get('/getuser:id', validateObjectId, async (req, res) => {
-    //Returns the user with the given id
-    const user = await User.findById(req.params.id);
+router.post('/getUserData', async (req, res) => {
+    const id = getIdFromToken(req.body.userToken);
+    const user = await User.findById(id);
 
     if (!user)
         return res
             .status(404)
             .send('The user with the given ID was not found.');
 
-    res.send(user);
+    res.status(200).send(user);
 });
 
 router.post('/img', upload.single('file'), (req, res) => {
-    const id = '6056928c143b00f109609135';
+    const id = getIdFromToken(req.header('x-auth-token'));
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, './uploads/image.png');
 
     fs.rename(tempPath, targetPath, async (err) => {
-        const user = await User.findById(id);
+        let user = await User.findById(id);
 
         const obj = {
             priority: user.imgs.length,
             path: tempPath,
         };
 
-        User.findByIdAndUpdate(
-            user._id,
+        user = User.findByIdAndUpdate(
+            id,
             { $push: { imgs: obj } },
             function (error, success) {
                 if (error) {
@@ -87,221 +87,98 @@ router.post('/img', upload.single('file'), (req, res) => {
             }
         );
 
-        res.status(200).contentType('text/plain').end('File uploaded!');
+        res.status(200).send();
     });
 });
 
-router.put('/updateEmail', auth, async (req, res) => {
-    //Updates the email of the logged in user
+router.put('/updateProfile', auth, async (req, res) => {
     const { error } = updateSchema.validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { email: req.body.email },
-        {
-            new: true,
-        }
-    );
 
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateName', auth, async (req, res) => {
-    //Updates the name of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { name: req.body.name },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateBio', auth, async (req, res) => {
-    //Updates the bio of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { bio: req.body.bio },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateGender', auth, async (req, res) => {
-    //Updates the gender of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { gender: req.body.gender },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateAge', auth, async (req, res) => {
-    //Updates the age of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { age: req.body.age },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateInterests', auth, async (req, res) => {
-    //Updates the interests of the logged in user
-    const id = getIdFromToken(req.header('x-auth-token'));
-
-    //Clears the interests array
-    await User.findByIdAndUpdate(
-        id,
-        { interests: new Array() },
-        function (error, success) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(success);
-            }
-        }
-    );
-
-    const user = await User.findByIdAndUpdate(
-        id,
-        { $addToSet: { interests: { $each: req.body.interests } } },
-        function (error, success) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(success);
-            }
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updatePassword', auth, async (req, res) => {
-    //Updates the password of the logged in user
-    const { error } = updateSchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    //Hashes the users password for security
-    const salt = await bcrypt.genSalt(10);
-    const newPassword = await bcrypt.hash(req.body.password, salt);
-
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        { password: newPassword },
-        {
-            new: true,
-        }
-    );
-
-    if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
-
-    res.status(200).send();
-});
-
-router.put('/updateLocation', auth, async (req, res) => {
-    //Updates the location of the logged in user
-    const options = {
-        provider: 'mapquest',
-        httpAdapter: 'https',
-        apiKey: 'HEEOmggzJMuZBvhQTMzHg5NzjAeBaIvo',
-    };
-
-    //Converts address string to coordinates
-    const geocoder = nodegeocoder(options);
-    const result = await geocoder.geocode(req.body.address, function (err) {
-        if (err) {
-            res.send(err);
-        }
+    let user = await User.findByIdAndUpdate(id, {
+        $set: _.omit(req.body, req.body.address),
     });
 
-    const coords = [result[0].longitude, result[0].latitude];
+    if (req.body.address) {
+        //Updates the location of the logged in user
+        const options = {
+            provider: 'mapquest',
+            httpAdapter: 'https',
+            apiKey: 'HEEOmggzJMuZBvhQTMzHg5NzjAeBaIvo',
+        };
 
-    const id = getIdFromToken(req.header('x-auth-token'));
-    const user = await User.findByIdAndUpdate(
-        id,
-        {
+        //Converts address string to coordinates
+        const geocoder = nodegeocoder(options);
+        const result = await geocoder.geocode(req.body.address, function (err) {
+            if (err) {
+                res.send(err);
+            }
+        });
+        const coords = [result[0].longitude, result[0].latitude];
+
+        user = await User.findByIdAndUpdate(id, {
             location: {
                 type: 'Point',
                 address: result[0].formattedAddress,
                 coordinates: coords,
                 index: '2d',
             },
-        },
-        {
-            new: true,
-        }
-    );
+        });
+    }
 
     if (!user)
         return res
             .status(404)
             .send('The user with the given ID was not found.');
+
+    res.status(200).send();
+});
+
+router.put('/updateAccount', auth, async (req, res) => {
+    // const { error } = updateSchema.validate(req.body);
+    // if (error) return res.status(400).send(error.details[0].message);
+
+    const id = getIdFromToken(req.header('x-auth-token'));
+    let user = await User.findById(id);
+
+    if (req.body.oldPassword) {
+        const validPassword = await bcrypt.compare(req.body.oldPassword, user.password)
+        if (!validPassword) return res.status(400).send('Invalid email or password');
+        
+        //Hashes the users password for security
+        const salt = await bcrypt.genSalt(10);
+        const newPassword = await bcrypt.hash(req.body.newPassword, salt);
+    
+    
+        user = await User.findByIdAndUpdate(
+            id,
+            { 
+                email: req.body.email,
+                password: newPassword, 
+            },
+            {
+                new: true,
+            }
+        );
+    } else {
+        user = await User.findByIdAndUpdate(
+            id,
+            { 
+                email: req.body.email,
+            },
+            {
+                new: true,
+            }
+        );
+    }
+
+
+    if (!user)
+    return res
+        .status(404)
+        .send('The user with the given ID was not found.');
 
     res.status(200).send();
 });

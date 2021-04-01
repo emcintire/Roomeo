@@ -12,7 +12,7 @@ class signIn extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await fetch('/api/auth', {
+        let response = await fetch('/api/auth', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,8 +23,13 @@ class signIn extends Component {
             }),
         });
         const body = await response.text();
-        alert(body);
-        // this.setState({ responseToPost: body });
+
+        if (response.status !== 200) {
+            alert(body);
+        } else {
+            localStorage.setItem('token', body);
+            this.props.history.push('/');
+        }
     };
 
     handleChange(event) {

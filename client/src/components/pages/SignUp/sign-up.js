@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../forms.css';
 
-
 class signUp extends Component {
     constructor(props) {
         super(props);
@@ -27,9 +26,14 @@ class signUp extends Component {
                     password: this.state.password,
                 }),
             });
+        
             const body = await response.text();
-            alert(body);
-            // this.setState({ responseToPost: body });
+            if (response.status !== 200) {
+                alert(body);
+            } else {
+                localStorage.setItem('token', body);
+                this.props.history.push('/');
+            }
         }
     };
 
@@ -42,62 +46,78 @@ class signUp extends Component {
     render() {
         return (
             <div>
-                <div className='form-container'> 
-                    <div className= 'form-content'>
-                        <form onSubmit={this.handleSubmit} className='form'>
-                                <h1> Create Account </h1>
-                                <div className= 'form-inputs'>
-                                <label htmlFor="name" className= 'form-label'>Name</label>
+                <div className="form-container">
+                    <div className="form-content">
+                        <form onSubmit={this.handleSubmit} className="form">
+                            <h1> Create Account </h1>
+                            <div className="form-inputs">
+                                <label htmlFor="name" className="form-label">
+                                    Name
+                                </label>
                                 <input
-                                    className='form-input'
-                                    type='text'
+                                    className="form-input"
+                                    type="text"
                                     name="name"
                                     placeholder="Enter your Full Name"
                                     value={this.state.name}
                                     onChange={this.handleChange}
                                 />
-                                </div>
-                                <div className= 'form-inputs'>
-                                <label htmlFor="email" className= 'form-label'>Email</label>
+                            </div>
+                            <div className="form-inputs">
+                                <label htmlFor="email" className="form-label">
+                                    Email
+                                </label>
                                 <input
-                                    className='form-input'
+                                    className="form-input"
                                     name="email"
-                                    type='email'
+                                    type="email"
                                     placeholder="Email"
                                     value={this.state.email}
                                     onChange={this.handleChange}
                                 />
-                                </div>
-                                <div className= 'form-inputs'>
-                                <label htmlFor="password" className= 'form-label'>Password</label>
+                            </div>
+                            <div className="form-inputs">
+                                <label
+                                    htmlFor="password"
+                                    className="form-label"
+                                >
+                                    Password
+                                </label>
                                 <input
-                                    className='form-input'
+                                    className="form-input"
                                     name="password"
-                                    type='password'
+                                    type="password"
                                     placeholder="Password"
                                     value={this.state.password}
                                     onChange={this.handleChange}
                                 />
-                                </div>
-                                <div className= 'form-inputs'>
-                                <label htmlFor="confirmPassword" className= 'form-label'>Confirm Password</label>
+                            </div>
+                            <div className="form-inputs">
+                                <label
+                                    htmlFor="confirmPassword"
+                                    className="form-label"
+                                >
+                                    Confirm Password
+                                </label>
                                 <input
-                                    className='form-input'
+                                    className="form-input"
                                     name="confirmPassword"
-                                    type='password'
+                                    type="password"
                                     placeholder="Confirm Password"
                                     value={this.state.confirmPassword}
                                     onChange={this.handleChange}
                                 />
-                                </div>
-                                <div>
-                                <button className='form-button' type='submit'>Create Account</button>
-                                </div>
-                                <p>{this.state.responseToPost}</p>
+                            </div>
+                            <div>
+                                <button className="form-button" type="submit">
+                                    Create Account
+                                </button>
+                            </div>
+                            <p>{this.state.responseToPost}</p>
                         </form>
                     </div>
                 </div>
-            </div>   
+            </div>
         );
     }
 }
