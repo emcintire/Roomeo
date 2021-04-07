@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 import 'react-notifications/lib/notifications.css';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {
+    NotificationContainer,
+    NotificationManager,
+} from 'react-notifications';
 import '../forms.css';
+import default_profile_pic from '../../../images/default_profile_pic.png';
 
 class UserProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = { name: '', bio: '', age: '', gender: '', address: '' };
+        this.state = {
+            name: '',
+            bio: '',
+            age: '',
+            gender: '',
+            address: '',
+            img: '',
+            image: '',
+        };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -23,7 +35,6 @@ class UserProfile extends Component {
         });
 
         const body = await response.json();
-        console.log(body);
 
         if (response.status !== 200) {
             alert(body);
@@ -34,9 +45,14 @@ class UserProfile extends Component {
                 age: body.age || '',
                 gender: body.gender || '',
                 address: body.location.address || '',
+                img: body.img,
             });
         }
     };
+
+    componentDidUpdate() {
+
+    }
 
     handleSubmit = async (event) => {
         event.preventDefault();
@@ -60,34 +76,32 @@ class UserProfile extends Component {
         if (response.status !== 200) {
             alert(body);
         } else {
-            NotificationManager.success('User Profile Updated', 'Success!', 3000);
-            this.props.history.push('/UserProfile');
+            NotificationManager.success(
+                'User Profile Updated',
+                'Success!',
+                3000
+            );
         }
     };
 
-    // handleChange (event) {
-    //     this.setState({
-    //         [event.target.name]: event.target.value,
-    //     });
-    // }
     handleChange = (e, key) => {
-        this.setState({[key]: e.target.value});
-    }
+        this.setState({ [key]: e.target.value });
+    };
 
     handleSubmitImage = async (event) => {
+        //Handles when a user uploads an image
         event.preventDefault();
 
-        let data = new FormData();
+        let file = new FormData();
         let imagedata = document.querySelector('input[type="file"]').files[0];
-        data.append("data", imagedata);
+        file.append('file', imagedata);
 
         const response = await fetch('/api/users/img', {
-            mode: 'no-cors',
             method: 'POST',
             headers: {
                 'x-auth-token': localStorage.getItem('token'),
             },
-            body: data
+            body: file,
         });
 
         const body = await response.text();
@@ -95,20 +109,51 @@ class UserProfile extends Component {
             alert(body);
         } else {
             NotificationManager.success('Image uploaded', 'Success!', 3000);
-            this.props.history.push('/UserProfile');
+            window.location.reload(false);
         }
-    }
+    };
 
     render() {
+        function importAll(r) {
+            return r.keys().map(r);
+        }
+        const Images = importAll(require.context('../../../uploads', false, /\.(png|jpe?g|svg)$/));
+        // console.log(Images);
+        let profilePic;
+
+        for (let i in Images) {
+            console.log(this.state.img.slice(0,17))
+            if (Images[i].default.slice(14, 31) === this.state.img.slice(0,17)) {
+                profilePic = Images[i].default;
+            }
+        }
+
         return (
             <div className="form-container">
                 <div className="form-content">
-                    {/* <form encType="multipart/form-data" onSubmit={this.handleSubmitImage}>
-                        <input type="file" name="file" />
-                        <input type="submit" value="Submit"/>
-                    </form> */}
+                    <h1 className="form-header"> Edit Profile </h1>
+                    <div className="img-container" >
+                        <img
+                            className='profile-pic'
+                            src={this.state.img ? profilePic : default_profile_pic}
+                            alt="Profile Pic"
+                        />
+                    </div>
+                    <form
+                        className="form-img-buttons"
+                        encType="multipart/form-data"
+                        onSubmit={this.handleSubmitImage}
+                    >
+                        <input 
+                            type="file" 
+                            name="file" 
+                        />
+                        <input 
+                            type="submit" 
+                            value="Submit" 
+                        />
+                    </form>
                     <form className="form" onSubmit={this.handleSubmit}>
-                        <h1> Edit Profile </h1>
                         <div className="form-inputs">
                             <label htmlFor="text" className="form-label">
                                 Name
@@ -170,7 +215,9 @@ class UserProfile extends Component {
                                 type="text"
                                 placeholder="123 Sesame St Plattsburgh, NY United States"
                                 value={this.state.address}
-                                onChange={(e) => this.handleChange(e, 'address')}
+                                onChange={(e) =>
+                                    this.handleChange(e, 'address')
+                                }
                             />
                         </div>
                         <div>
@@ -180,7 +227,7 @@ class UserProfile extends Component {
                         </div>
                     </form>
                 </div>
-                <NotificationContainer/>
+                <NotificationContainer />
             </div>
         );
     }

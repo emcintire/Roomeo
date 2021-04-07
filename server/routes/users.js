@@ -18,8 +18,6 @@ const {
 } = require('../models/user');
 const { send } = require('process');
 
-// router.get('/', express.static(path.join(__dirname, '../public')));
-
 router.post('/', async (req, res) => {
     //Creates a user with the properties: name, email, password
     const { error } = schema.validate(req.body);
@@ -68,24 +66,31 @@ router.post('/img', upload.single('file'), (req, res) => {
     const targetPath = path.join(__dirname, './uploads/image.png');
 
     fs.rename(tempPath, targetPath, async (err) => {
-        let user = await User.findById(id);
-
-        const obj = {
-            priority: user.imgs.length,
-            path: tempPath,
-        };
-
-        user = User.findByIdAndUpdate(
+        const user = await User.findByIdAndUpdate(
             id,
-            { $push: { imgs: obj } },
-            function (error, success) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log(success);
-                }
-            }
-        );
+            { img: tempPath.slice(22)}
+        )
+
+        // const obj = {
+        //     priority: user.imgs.length,
+        //     path: tempPath,
+        // };
+
+        // user = User.findByIdAndUpdate(
+        //     id,
+        //     { $push: { imgs: obj } },
+        //     function (error, success) {
+        //         if (error) {
+        //             console.log(error);
+        //         } else {
+        //             console.log(success);
+        //         }
+        //     }
+        // );
+        if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
 
         res.status(200).send();
     });
@@ -144,18 +149,22 @@ router.put('/updateAccount', auth, async (req, res) => {
     let user = await User.findById(id);
 
     if (req.body.oldPassword) {
-        const validPassword = await bcrypt.compare(req.body.oldPassword, user.password)
-        if (!validPassword) return res.status(400).send('Invalid email or password');
-        
+        const validPassword = await bcrypt.compare(
+            req.body.oldPassword,
+            user.password
+        );
+        if (!validPassword)
+            return res.status(400).send('Invalid email or password');
+
         //Hashes the users password for security
         const salt = await bcrypt.genSalt(10);
         const newPassword = await bcrypt.hash(req.body.newPassword, salt);
-    
+
         user = await User.findByIdAndUpdate(
             id,
-            { 
+            {
                 email: req.body.email,
-                password: newPassword, 
+                password: newPassword,
             },
             {
                 new: true,
@@ -164,7 +173,7 @@ router.put('/updateAccount', auth, async (req, res) => {
     } else {
         user = await User.findByIdAndUpdate(
             id,
-            { 
+            {
                 email: req.body.email,
             },
             {
@@ -173,11 +182,10 @@ router.put('/updateAccount', auth, async (req, res) => {
         );
     }
 
-
     if (!user)
-    return res
-        .status(404)
-        .send('The user with the given ID was not found.');
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
 
     res.status(200).send();
 });
@@ -260,5 +268,58 @@ router.post('/dislike', auth, async (req, res) => {
 
     res.status(200).send();
 });
+
+router.post('/unmatch', auth, async (req, res) => {
+    //Removes user2 from user1's matches array
+    const id = getIdFromToken(req.header('x-auth-token'));
+    const user1 = await User.findById(id);
+    const user2 = await User.findById(req.body.id);
+
+    if (!user1 || !user2)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    user1.matches.remove(user2._id);
+    user2.matches.remove(user1._id);
+
+    user1.dislikes.push(user2._id);
+    user2.dislikes.push(user1._id);
+
+    user1.save();
+    user2.save();
+
+    res.status(200).send();
+});
+
+router.post('/sendMessage', auth, async (req, res) => {
+    //Sends a message from logged in user1 to matched user2
+    const id = getIdFromToken(req.header('x-auth-token'));
+    const user1 = await User.findById(id);
+    const user2 = await User.findById(req.body.id);
+
+    if (!user1 || !user2)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+            
+    user1.matches.find(item => item._id == req.body.id).messages.push({
+        content: req.body.message,
+        u_id: id
+    });
+
+    user2.matches.find(item => item._id == id).messages.push({
+        content: req.body.message,
+        u_id: id
+    });
+
+    user1.save();
+    user2.save();
+
+    res.status(200).send();
+});
+
+
 
 module.exports = router;
