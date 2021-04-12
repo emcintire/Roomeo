@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
 import 'react-notifications/lib/notifications.css';
 import {
     NotificationContainer,
@@ -17,11 +18,29 @@ class UserProfile extends Component {
             gender: '',
             address: '',
             img: '',
-            image: '',
+            interests: [],
+            interests2: [],
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    //Options for the interests Select element
+    options = [
+        { value: 'Sports', label: 'Sports' },
+        { value: 'Going Out', label: 'Going Out' },
+        { value: 'Reading', label: 'Reading' },
+        { value: 'Late Nights', label: 'Late Nights' },
+        { value: 'Early Mornings', label: 'Early Mornings' },
+        { value: 'Movies', label: 'Movies' },
+        { value: 'Binging TV Shows', label: 'Binging TV Shows' },
+        { value: 'Hiking', label: 'Hiking' },
+        { value: 'Pop Music', label: 'Pop Music' },
+        { value: 'Rap Music', label: 'Rap Music' },
+        { value: 'Country Music', label: 'Country Music' },
+        { value: 'Rock Music', label: 'Rock Music' },
+        { value: 'Indie Music', label: 'Indie Music' },
+    ];
 
     componentDidMount = async () => {
         let response = await fetch('/api/users/getUserData', {
@@ -46,16 +65,27 @@ class UserProfile extends Component {
                 gender: body.gender || '',
                 address: body.location.address || '',
                 img: body.img,
+                interests: body.interests || '',
+                interests2: body.interests || '',
             });
         }
     };
 
-    componentDidUpdate() {
-
-    }
-
     handleSubmit = async (event) => {
         event.preventDefault();
+
+        
+        let userInterests;
+
+        userInterests = [];
+        for (let i in this.state.interests) {
+            if (typeof(this.state.interests[i]) === 'object' ) {
+                userInterests.push(this.state.interests[i].label);
+            }
+            else {
+                userInterests.push(this.state.interests[i]);
+            }
+        }
 
         const response = await fetch('/api/users/updateProfile', {
             method: 'PUT',
@@ -69,6 +99,7 @@ class UserProfile extends Component {
                 age: this.state.age,
                 gender: this.state.gender,
                 address: this.state.address,
+                interests: userInterests,
             }),
         });
 
@@ -86,6 +117,10 @@ class UserProfile extends Component {
 
     handleChange = (e, key) => {
         this.setState({ [key]: e.target.value });
+    };
+
+    handleInterestsChange = (selectedOption) => {
+        this.setState({ interests: selectedOption });
     };
 
     handleSubmitImage = async (event) => {
@@ -117,13 +152,15 @@ class UserProfile extends Component {
         function importAll(r) {
             return r.keys().map(r);
         }
-        const Images = importAll(require.context('../../../uploads', false, /\.(png|jpe?g|svg)$/));
-        // console.log(Images);
+        const Images = importAll(
+            require.context('../../../uploads', false, /\.(png|jpe?g|svg)$/)
+        );
         let profilePic;
 
         for (let i in Images) {
-            console.log(this.state.img.slice(0,17))
-            if (Images[i].default.slice(14, 31) === this.state.img.slice(0,17)) {
+            if (
+                Images[i].default.slice(14, 31) === this.state.img.slice(0, 17)
+            ) {
                 profilePic = Images[i].default;
             }
         }
@@ -132,10 +169,14 @@ class UserProfile extends Component {
             <div className="form-container">
                 <div className="form-content">
                     <h1 className="form-header"> Edit Profile </h1>
-                    <div className="img-container" >
+                    <div className="img-container">
                         <img
-                            className='profile-pic'
-                            src={this.state.img ? profilePic : default_profile_pic}
+                            className="profile-pic"
+                            src={
+                                this.state.img
+                                    ? profilePic
+                                    : default_profile_pic
+                            }
                             alt="Profile Pic"
                         />
                     </div>
@@ -144,17 +185,11 @@ class UserProfile extends Component {
                         encType="multipart/form-data"
                         onSubmit={this.handleSubmitImage}
                     >
-                        <input 
-                            type="file" 
-                            name="file" 
-                        />
-                        <input 
-                            type="submit" 
-                            value="Submit" 
-                        />
+                        <input type="file" name="file" />
+                        <input type="submit" value="Submit" />
                     </form>
                     <form className="form" onSubmit={this.handleSubmit}>
-                        <div className="form-inputs">
+                        <div className="form-inputs-small">
                             <label htmlFor="text" className="form-label">
                                 Name
                             </label>
@@ -166,6 +201,33 @@ class UserProfile extends Component {
                                 value={this.state.name}
                                 onChange={(e) => this.handleChange(e, 'name')}
                             />
+                        </div>
+                        <div className="form-inputs-small">
+                            <label htmlFor="text" className="form-label">
+                                Age
+                            </label>
+                            <input
+                                className="form-input"
+                                name="age"
+                                type="text"
+                                placeholder="Age"
+                                value={this.state.age}
+                                onChange={(e) => this.handleChange(e, 'age')}
+                            />
+                        </div>
+                        <div className="form-inputs-small-gender">
+                            <label htmlFor="text" className="form-label">
+                                Gender
+                            </label>
+                            <select
+                                className="form-input"
+                                value={this.state.gender}
+                                onChange={(e) => this.handleChange(e, 'gender')}
+                            >
+                                <option name="male"> Male</option>
+                                <option name="female">Female</option>
+                                <option name="other">Other</option>
+                            </select>
                         </div>
                         <div className="form-inputs">
                             <label className="form-label">Update Bio</label>
@@ -180,30 +242,14 @@ class UserProfile extends Component {
                         </div>
                         <div className="form-inputs">
                             <label htmlFor="text" className="form-label">
-                                Age
+                                Interests:
+                                &emsp; {[' '].concat(...this.state.interests2.map(e => [e, ' ']))}
                             </label>
-                            <input
-                                className="form-input"
-                                name="age"
-                                type="text"
-                                placeholder="Age"
-                                value={this.state.age}
-                                onChange={(e) => this.handleChange(e, 'age')}
+                            <Select
+                                onChange={value => this.handleInterestsChange(value)}
+                                options={this.options}
+                                isMulti
                             />
-                        </div>
-                        <div className="form-inputs">
-                            <label htmlFor="text" className="form-label">
-                                Gender
-                            </label>
-                            <select
-                                className="form-input"
-                                value={this.state.gender}
-                                onChange={(e) => this.handleChange(e, 'gender')}
-                            >
-                                <option name="male"> Male</option>
-                                <option name="female">Female</option>
-                                <option name="other">Other</option>
-                            </select>
                         </div>
                         <div className="form-inputs">
                             <label htmlFor="text" className="form-label">

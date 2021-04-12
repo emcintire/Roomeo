@@ -87,6 +87,17 @@
     width: 100%;
     border: none;
   }
+  
+.form-inputs-small {
+    margin-bottom: 0.5rem;
+    width: 40%;
+  }
+  
+.form-inputs-small-gender {
+    margin-bottom: 0.5rem;
+    width: 40%;
+    padding-bottom: 50px;
+  }
 
   
 .form-input-bio {
@@ -108,21 +119,24 @@
   }
 
   .form-img-buttons {
-    display: flex;
+    /* display: flex;
     align-self: center;
-    justify-content: center;
+    justify-content: center; */
+    padding-bottom: 10px;
+    float: right;
   }
 
   .img-container {
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
+    float: right;
     /* width: 200px;
     height: auto; */
   }
 
   .profile-pic {
-      padding: 20px;
+      /* padding: 20px; */
       border-radius: 50%;
       width: 250px;
       height: 250px;
