@@ -11,7 +11,7 @@ function Home() {
     return (
         <>
           <HeroSection {...homeObjOne} />
-          <HeroSection {...homeObjThree} />  
+          {/* <HeroSection {...homeObjThree} />   */}
           {/* <HeroSection {...homeObjTwo} />   */}
           {/* <HeroSection {...homeObjFour} />     */}
         </>

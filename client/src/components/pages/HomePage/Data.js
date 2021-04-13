@@ -7,7 +7,7 @@ export const homeObjOne = {
     description: 'Are you looking for a roommate? You are in the right place! We are determined to help you find the perfect roommate.',
     buttonLabel: 'Get Started',
     imgStart: '',
-    img: 'images/home2.jpg',
+    img: 'images/Room.jpeg',
     alt: 'Roommates'
 };
 
@@ -25,19 +25,19 @@ export const homeObjOne = {
 //     // alt: 'Vault'
 //   };
   
-  export const homeObjThree = {
-    lightBg: true,
-    lightText: false,
-    lightTextDesc: false,
-    topLine: 'Under Construction',
-    headline: 'Under Construction',
-    description:
-      "This section will contain a search bar to find roomate",
-    buttonLabel: 'Lets go!',
-    // imgStart: 'start',
-    // img: 'images/svg-7.svg',
-    // alt: 'Vault'
-  };
+  // export const homeObjThree = {
+  //   lightBg: true,
+  //   lightText: false,
+  //   lightTextDesc: false,
+  //   topLine: 'Under Construction',
+  //   headline: 'Under Construction',
+  //   description:
+  //     "This section will contain a search bar to find roomate",
+  //   buttonLabel: 'Lets go!',
+  //   // imgStart: 'start',
+  //   // img: 'images/svg-7.svg',
+  //   // alt: 'Vault'
+  // };
   
   // export const homeObjFour = {
   //   lightBg: false,
