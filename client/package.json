@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "framer-motion": "^3.10.2",
+    "mongodb": "^3.6.6",
+    "multiselect-react-dropdown": "^1.6.11",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
