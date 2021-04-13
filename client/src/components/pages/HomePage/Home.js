@@ -3,7 +3,7 @@ import HeroSection from '../../HeroSection'
 import {
   homeObjOne, 
   // homeObjTwo, 
-  homeObjThree, 
+//   homeObjThree, 
   // homeObjFour
 } from './Data'
 

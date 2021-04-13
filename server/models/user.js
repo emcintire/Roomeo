@@ -71,7 +71,34 @@ const userSchema = new mongoose.Schema({
                 default: Date.now
             },
         }]
-    }]
+    }],
+    filters: {
+        minAge: {
+            type: Number,
+            default: 18
+        },
+        maxAge: {
+            type: Number,
+            default: 100
+        },
+        gender: {
+            type: [String],
+            default: ['Male', 'Female', 'Other']
+        },
+        distance: {
+            type: Number,
+            default: 50
+        },
+        interests: {
+            type: [String],
+            default: [
+                "Indie Music","Rock Music","Pop Music",
+                "Country Music","Rap Music","Reading", 
+                "Hiking","Movies","Binging TV Shows", 
+                "Early Mornings","Late Nights","Going Out","Sports"
+            ]
+        }
+    }
 });
 
 userSchema.index({ location: '2dsphere' });

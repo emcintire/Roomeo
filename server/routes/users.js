@@ -173,7 +173,7 @@ router.put('/updateAccount', auth, async (req, res) => {
     res.status(200).send();
 });
 
-router.get('/getUsers', auth, async (req, res) => {
+router.post('/getUsers', auth, async (req, res) => {
     //Finds the users that meet the filter requirements
     const id = getIdFromToken(req.header('x-auth-token'));
     const user = await User.findById(id);
@@ -185,7 +185,13 @@ router.get('/getUsers', auth, async (req, res) => {
 
     const query = {
         $and: [
-            { $and: [{ _id: { $ne: id } }, { _id: { $nin: user.dislikes } }] },
+            {
+                $and: [
+                    { _id: { $ne: id } },
+                    { _id: { $nin: user.dislikes } },
+                    { _id: { $nin: user.likes } },
+                ],
+            },
             {
                 location: {
                     //Find users within radius
@@ -204,7 +210,8 @@ router.get('/getUsers', auth, async (req, res) => {
                 },
             },
             { gender: { $in: req.body.gender } },
-            { interests: { $all: req.body.interests } },
+            // { interests: { $all: req.body.interests } },
+            { interests: { $in: req.body.interests } },
         ],
     };
 
