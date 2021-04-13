@@ -1,4 +1,4 @@
 {
     "jwtPrivateKey": "bushdid911",
-    "db": "mongodb://localhost/roomeo"
+    "db": "mongodb+srv://emcin003:Enderstoi562!@cluster0.aj0cf.mongodb.net/test"
 }
