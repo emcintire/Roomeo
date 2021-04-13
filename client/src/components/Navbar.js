@@ -80,6 +80,15 @@ function Navbar() {
                                 </li>
                                 <li className="nav-item">
                                     <Link
+                                        to="/match"
+                                        className="nav-links"
+                                        onClick={closeMobileMenu}
+                                    >
+                                        match
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link
                                         to="/about-us"
                                         className="nav-links"
                                         onClick={closeMobileMenu}
