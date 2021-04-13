@@ -66,31 +66,14 @@ router.post('/img', upload.single('file'), (req, res) => {
     const targetPath = path.join(__dirname, './uploads/image.png');
 
     fs.rename(tempPath, targetPath, async (err) => {
-        const user = await User.findByIdAndUpdate(
-            id,
-            { img: tempPath.slice(22)}
-        )
+        const user = await User.findByIdAndUpdate(id, {
+            img: tempPath.slice(22),
+        });
 
-        // const obj = {
-        //     priority: user.imgs.length,
-        //     path: tempPath,
-        // };
-
-        // user = User.findByIdAndUpdate(
-        //     id,
-        //     { $push: { imgs: obj } },
-        //     function (error, success) {
-        //         if (error) {
-        //             console.log(error);
-        //         } else {
-        //             console.log(success);
-        //         }
-        //     }
-        // );
         if (!user)
-        return res
-            .status(404)
-            .send('The user with the given ID was not found.');
+            return res
+                .status(404)
+                .send('The user with the given ID was not found.');
 
         res.status(200).send();
     });
@@ -190,7 +173,7 @@ router.put('/updateAccount', auth, async (req, res) => {
     res.status(200).send();
 });
 
-router.get('/updateFilters', auth, async (req, res) => {
+router.get('/getUsers', auth, async (req, res) => {
     //Finds the users that meet the filter requirements
     const id = getIdFromToken(req.header('x-auth-token'));
     const user = await User.findById(id);
@@ -201,22 +184,28 @@ router.get('/updateFilters', auth, async (req, res) => {
             .send('The user with the given ID was not found.');
 
     const query = {
-        _id: { $ne: id },
-        location: {
-            //Find users within radius
-            $geoWithin: {
-                $centerSphere: [
-                    user.location.coordinates,
-                    milesToRadian(req.body.distance),
-                ],
+        $and: [
+            { $and: [{ _id: { $ne: id } }, { _id: { $nin: user.dislikes } }] },
+            {
+                location: {
+                    //Find users within radius
+                    $geoWithin: {
+                        $centerSphere: [
+                            user.location.coordinates,
+                            milesToRadian(req.body.distance),
+                        ],
+                    },
+                },
             },
-        },
-        age: {
-            $gte: req.body.minAge,
-            $lte: req.body.maxAge,
-        },
-        gender: { $in: req.body.gender },
-        interests: { $all: req.body.interests },
+            {
+                age: {
+                    $gte: req.body.minAge,
+                    $lte: req.body.maxAge,
+                },
+            },
+            { gender: { $in: req.body.gender } },
+            { interests: { $all: req.body.interests } },
+        ],
     };
 
     const results = await User.find(query);
@@ -303,23 +292,26 @@ router.post('/sendMessage', auth, async (req, res) => {
             .status(404)
             .send('The user with the given ID was not found.');
 
-            
-    user1.matches.find(item => item._id == req.body.id).messages.push({
-        content: req.body.message,
-        u_id: id
-    });
+    //Adds the message to the user1's messages array
+    user1.matches
+        .find((item) => item._id == req.body.id)
+        .messages.push({
+            content: req.body.message,
+            u_id: id,
+        });
 
-    user2.matches.find(item => item._id == id).messages.push({
-        content: req.body.message,
-        u_id: id
-    });
+    //Adds the message to the user2's messages array
+    user2.matches
+        .find((item) => item._id == id)
+        .messages.push({
+            content: req.body.message,
+            u_id: id,
+        });
 
     user1.save();
     user2.save();
 
     res.status(200).send();
 });
-
-
 
 module.exports = router;
