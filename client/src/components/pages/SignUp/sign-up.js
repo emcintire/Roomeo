@@ -33,6 +33,7 @@ class signUp extends Component {
             } else {
                 localStorage.setItem('token', body);
                 this.props.history.push('/');
+                window.location.reload(false);
             }
         }
     };

@@ -42,16 +42,10 @@ const userSchema = new mongoose.Schema({
         maxlength: 512,
         default: '',
     },
-    imgs: [{ 
-        priority: {
-            type: Number,
-            default: 0
-        },
-        path: {
-            type: String,
-            default: ''
-        } 
-    }],
+    img: {
+        type: String,
+        default: '',
+    },
     interests: [String],
     location: {
         type: { 
@@ -68,7 +62,15 @@ const userSchema = new mongoose.Schema({
     dislikes: [String],
     matches: [{
         time : { type : Date, default: Date.now },
-        user: { type : String }
+        user: { type : String },
+        messages: [{
+            u_id: String,
+            content: String,
+            time: {
+                type: Date,
+                default: Date.now
+            },
+        }]
     }]
 });
 
@@ -95,14 +97,14 @@ const schema = Joi.object({
 
 const updateSchema = Joi.object({
     //Validates the user object for updating user after initial user creation
-    name: Joi.string().min(1).max(100),
+    name: Joi.string().min(1).max(100).allow(null, ''),
     email: Joi.string().min(1).max(255).email(),
     password: Joi.string().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
-    bio: Joi.string().max(512),
-    gender: Joi.string(),
-    age: Joi.number().min(18).max(200),
-    address: Joi.string().max(200),
-    interests: Joi.array().items(Joi.string())
+    bio: Joi.string().max(512).allow(null, ''),
+    gender: Joi.string().allow(null, ''),
+    age: Joi.number().min(18).max(200).allow(null, ''),
+    address: Joi.string().max(200).allow(null, ''),
+    interests: Joi.array().items(Joi.string()).allow(null, '')
 });
 
 const getIdFromToken = function (token) {

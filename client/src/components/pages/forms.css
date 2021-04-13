@@ -40,6 +40,14 @@
 .form h1 {
     font-size: 2rem;
     text-align: start;
+    width: 100%;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.form-header {
+    font-size: 2rem;
+    text-align: start;
     width: 80%;
     margin-bottom: 1rem;
     color: white;
@@ -47,7 +55,7 @@
 
 .form-inputs {
     margin-bottom: 0.5rem;
-    width: 80%;
+    width: 100%;
 }
 
 .form-label {
@@ -59,7 +67,7 @@
 
 
 .form-button {
-    width: 80%;
+    width: 100%;
     height: 50px;
     margin-top: 10px;
     border-radius: 2px;
@@ -79,11 +87,23 @@
     width: 100%;
     border: none;
   }
+  
+.form-inputs-small {
+    margin-bottom: 0.5rem;
+    width: 40%;
+  }
+  
+.form-inputs-small-gender {
+    margin-bottom: 0.5rem;
+    width: 40%;
+    padding-bottom: 50px;
+  }
 
   
 .form-input-bio {
     display: block;
     padding-left: 10px;
+    padding-top: 10px;
     outline: none;
     border-radius: 2px;
     height: 100px;
@@ -96,4 +116,28 @@
     background-color: white;
     color: #1c2237;
     transition: all 0.4s ease-out;
+  }
+
+  .form-img-buttons {
+    /* display: flex;
+    align-self: center;
+    justify-content: center; */
+    padding-bottom: 10px;
+    float: right;
+  }
+
+  .img-container {
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    float: right;
+    /* width: 200px;
+    height: auto; */
+  }
+
+  .profile-pic {
+      /* padding: 20px; */
+      border-radius: 50%;
+      width: 250px;
+      height: 250px;
   }
