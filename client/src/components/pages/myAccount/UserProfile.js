@@ -246,8 +246,7 @@ class UserProfile extends Component {
                         </div>
                         <div className="form-inputs">
                             <label htmlFor="text" className="form-label">
-                                Interests:
-                                &emsp; {[' '].concat(...this.state.interests2.map(e => [e, ' ']))}
+                                Interests: &emsp; {this.state.interests2.join(', ')}
                             </label>
                             <Select
                                 onChange={value => this.handleInterestsChange(value)}

@@ -231,15 +231,15 @@ class match extends Component {
         }
 
         return (
-            <div>
-                <h2>Name: &nbsp;{this.state.name}</h2>
-                <h3>Age: &nbsp;{this.state.age}</h3>
-                <h3>Gender: &nbsp;{this.state.gender}</h3>
-                <h3>Bio: &nbsp;{this.state.bio}</h3>
-                <h3>Interests: &nbsp;{this.state.interests}</h3>
-                <h3>Address: &nbsp;{this.state.address}</h3>
+            <div className="match-container">
+                <h2><span className="title-text">Name:</span> &nbsp;{this.state.name}</h2>
+                <h4><span className="title-text">Age:</span> &nbsp;{this.state.age}</h4>
+                <h4><span className="title-text">Gender:</span> &nbsp;{this.state.gender}</h4>
+                <h4><span className="title-text">Bio:</span> &nbsp;{this.state.bio}</h4>
+                <h4><span className="title-text">Interests:</span> &nbsp;{(this.state.interests).join(", ")}</h4>
+                <h4><span className="title-text">Address:</span> &nbsp;{this.state.address}</h4>
                 <img
-                    className="profile-pic"
+                    className="profile_pic"
                     src={this.state.img ? profilePic : default_profile_pic}
                     alt="Profile Pic"
                 />

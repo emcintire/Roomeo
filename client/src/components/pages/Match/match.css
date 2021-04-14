@@ -2,8 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  /* body {
+}
+/* body {
     background: #e8efff;
     display: flex;
     align-items: center;
@@ -12,27 +12,77 @@
     height: 100vh;
   } 
    */
-  .like__btn {
+.like__btn {
     padding: 10px 15px;
-    background: #0080ff;
+    background: #33a55f;
     font-size: 18px;
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Open Sans', sans-serif;
     border-radius: 5px;
     color: #e8efff;
     outline: none;
     border: none;
     cursor: pointer;
-  }
+    position: absolute;
+    right: 10%;
+    bottom: 30px;
+}
 
-  .dislike__btn {
+.dislike__btn {
     padding: 10px 15px;
-    background: #0080ff;
+    background: #c2413d;
     font-size: 18px;
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Open Sans', sans-serif;
     border-radius: 5px;
     color: #e8efff;
     outline: none;
     border: none;
     cursor: pointer;
-  }
-  
+    position: absolute;
+    left: 10%;
+    bottom: 30px;
+}
+
+.profile_pic {
+    right: 10%;
+    top: 10%;
+    position: absolute;
+    float: right;
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+}
+
+.match-container {
+    margin: auto;
+    width: 100%;
+    height: 80vh;
+    background-color: #1c2237;
+    position: relative;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    font-size: 50px;
+    color: white;
+    padding: 40px 0px 10px 40px;
+}
+
+h4 {
+    font-size: 25px;
+    color: white;
+    padding: 5px 5px 5px 40px;
+}
+
+.title-text {
+    color: #97d6d8;
+}
+
+h2 .title-text {
+    font-size: 20px;
+}
+
+h4 .title-text {
+    font-size: 20px;
+}
