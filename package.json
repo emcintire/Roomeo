@@ -4,7 +4,7 @@
     "scripts": {
         "client": "cd client && yarn start",
         "server": "cd server && nodemon index.js",
-        "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+        "dev": "concurrently --kill-others-on-fail \"npm run server\" \"yarn client\""
     },
     "dependencies": {
         "framer-motion": "^3.10.2",
