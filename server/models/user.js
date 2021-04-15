@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        default: '',
+        default: 'Male',
     },
     bio: {
         type: String,
@@ -62,7 +62,14 @@ const userSchema = new mongoose.Schema({
     dislikes: [String],
     matches: [{
         time : { type : Date, default: Date.now },
-        user: { type : String },
+        name: { 
+            type: String,
+            default: '',
+        },
+        img: {
+            type: String,
+            default: '',
+        },
         messages: [{
             u_id: String,
             content: String,

@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
     res.send(token);
 });
 
-router.delete('/', auth, async (req, res) => {
+router.delete('/deleteAccount', auth, async (req, res) => {
     //Deletes the user with the given id
     const id = getIdFromToken(req.header('x-auth-token'));
     const user = await User.findByIdAndRemove(id);
@@ -219,6 +219,22 @@ router.post('/getUsers', auth, async (req, res) => {
     res.status(200).send(results);
 });
 
+router.put('/updateFilters', auth, async (req, res) => {
+    //Updates the users filters for finding other users
+    const id = getIdFromToken(req.header('x-auth-token'));
+    const user = await User.findById(id);
+
+    if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    user.filters = req.body;
+    user.save();
+
+    res.status(200).send();
+});
+
 router.post('/like', auth, async (req, res) => {
     //Like button functionality for finding other users
     const id = getIdFromToken(req.header('x-auth-token'));
@@ -234,18 +250,27 @@ router.post('/like', auth, async (req, res) => {
         //If user2 likes user1 add the users id to both users matches array
         user1.matches.push(user2._id);
         user2.matches.push(user1._id);
+        user1.likes.push(user2._id);
 
-        //Remove the liked user from the other users likes array
-        user2.likes = user2.likes.remove_by_value(id);
+        let match1 = user1.matches.find((item) => item._id == user2._id);
+        let match2 = user2.matches.find((item) => item._id == user1._id);
+
+        match1.name = user2.name;
+        match2.name = user1.name;
+        match1.img = user2.img;
+        match2.img = user1.img;
+        
+        user1.save();
+        user2.save();
+
+        res.status(200).send(user2._id);
     } else {
         //If user2 doesnt like user1 add user2's id to user1's likes array
         user1.likes.push(user2._id);
+        user1.save();
+
+        res.status(200).send();
     }
-
-    user1.save();
-    user2.save();
-
-    res.status(200).send();
 });
 
 router.post('/dislike', auth, async (req, res) => {

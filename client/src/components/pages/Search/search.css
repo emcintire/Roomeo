@@ -24,7 +24,7 @@
     cursor: pointer;
     position: absolute;
     right: 10%;
-    bottom: 30px;
+    bottom: 10px;
 }
 
 .dislike__btn {
@@ -38,8 +38,8 @@
     border: none;
     cursor: pointer;
     position: absolute;
-    left: 10%;
-    bottom: 30px;
+    right: 30%;
+    bottom: 10px;
 }
 
 .profile_pic {
@@ -48,11 +48,11 @@
     position: absolute;
     float: right;
     border-radius: 50%;
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
 }
 
-.match-container {
+.user-container {
     margin: auto;
     width: 100%;
     height: 80vh;
@@ -63,26 +63,29 @@
     align-items: center;
 }
 
-h2 {
-    font-size: 50px;
-    color: white;
-    padding: 40px 0px 10px 40px;
+.text-container {
+    width: 50%;
 }
 
-h4 {
-    font-size: 25px;
+.name-text {
+    font-size: 50px;
     color: white;
-    padding: 5px 5px 5px 40px;
+    padding: 40px 0 0 40px;
+}
+
+.bio-text {
+    font-size: 20px;
+    color: white;
+    padding: 0 5px 30px 40px;
 }
 
 .title-text {
     color: #97d6d8;
-}
-
-h2 .title-text {
     font-size: 20px;
 }
 
-h4 .title-text {
-    font-size: 20px;
+.content-text {
+    font-size: 25px;
+    color: white;
+    padding: 5px 5px 5px 40px;
 }

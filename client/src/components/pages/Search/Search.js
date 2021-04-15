@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
+import {
+    NotificationContainer,
+    NotificationManager,
+} from 'react-notifications';
 // import { Multiselect } from 'multiselect-react-dropdown';
-import './match.css';
+import './search.css';
 import './styles.css';
-import '../forms.css';
+// import '../forms.css';
+import 'react-notifications/lib/notifications.css';
 import default_profile_pic from '../../../images/default_profile_pic.png';
 
 // class match extends Component {
@@ -91,7 +96,7 @@ import default_profile_pic from '../../../images/default_profile_pic.png';
 //     }
 // }
 
-class match extends Component {
+class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -143,9 +148,21 @@ class match extends Component {
             }),
         });
 
+        const body = await response.text();
+
         if (response.status !== 200) {
-            alert(response);
+            alert(body);
+        } else if (body){
+            NotificationManager.success(
+                'View your matches to send them a message.',
+                'Match!',
+                3000
+            );
+            setTimeout(() => {
+                window.location.reload(false);
+            }, 1000);
         } else {
+            // console.log(body);
             window.location.reload(false);
         }
     };
@@ -231,13 +248,15 @@ class match extends Component {
         }
 
         return (
-            <div className="match-container">
-                <h2><span className="title-text">Name:</span> &nbsp;{this.state.name}</h2>
-                <h4><span className="title-text">Age:</span> &nbsp;{this.state.age}</h4>
-                <h4><span className="title-text">Gender:</span> &nbsp;{this.state.gender}</h4>
-                <h4><span className="title-text">Bio:</span> &nbsp;{this.state.bio}</h4>
-                <h4><span className="title-text">Interests:</span> &nbsp;{(this.state.interests).join(", ")}</h4>
-                <h4><span className="title-text">Address:</span> &nbsp;{this.state.address}</h4>
+            <div className="user-container">
+                <div className="text-container">
+                    <h2 className="name-text">{this.state.name}</h2>
+                    <h4 className="bio-text">"{this.state.bio}"</h4>
+                    <h4 className="content-text"><span className="title-text">Age:</span> &nbsp;{this.state.age}</h4>
+                    <h4 className="content-text"><span className="title-text">Gender:</span> &nbsp;{this.state.gender}</h4>
+                    <h4 className="content-text"><span className="title-text">Interests:</span> &nbsp;{(this.state.interests).join(", ")}</h4>
+                    <h4 className="content-text"><span className="title-text">Address:</span> &nbsp;{this.state.address}</h4>
+                </div>
                 <img
                     className="profile_pic"
                     src={this.state.img ? profilePic : default_profile_pic}
@@ -257,9 +276,10 @@ class match extends Component {
                     <span> </span>
                     Dislike
                 </button>
+                <NotificationContainer />
             </div>
         );
     }
 }
 
-export default match;
+export default Search;

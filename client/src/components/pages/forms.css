@@ -13,7 +13,7 @@
     display: inline-block; */
 }
 
-.form-content{
+.form-content {
     /* border-radius: 0 10px 10px 0; */
     padding-top: 50px;
     padding-bottom: 100px;
@@ -24,12 +24,12 @@
     justify-content: center;
 }
 
-.forms{
+.forms {
     /* position:absolute; */
     top: 50%;
     left: 50%;
     width: 90%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -65,7 +65,6 @@
     color: white;
 }
 
-
 .form-button {
     width: 100%;
     height: 50px;
@@ -76,7 +75,7 @@
     border: none;
     color: #fff;
     font-size: 1rem;
-  }
+}
 
 .form-input {
     display: block;
@@ -86,20 +85,19 @@
     height: 40px;
     width: 100%;
     border: none;
-  }
-  
+}
+
 .form-inputs-small {
     margin-bottom: 0.5rem;
     width: 40%;
-  }
-  
+}
+
 .form-inputs-small-gender {
     margin-bottom: 0.5rem;
     width: 40%;
     padding-bottom: 50px;
-  }
+}
 
-  
 .form-input-bio {
     display: block;
     padding-left: 10px;
@@ -109,35 +107,58 @@
     height: 100px;
     width: 100%;
     border: none;
-  }
+}
 
-  .form-button:hover {
+.form-button:hover {
     cursor: pointer;
     background-color: white;
     color: #1c2237;
     transition: all 0.4s ease-out;
-  }
+}
 
-  .form-img-buttons {
+.form-img-buttons {
     /* display: flex;
     align-self: center;
     justify-content: center; */
     padding-bottom: 10px;
     float: right;
-  }
+}
 
-  .img-container {
+.img-container {
     /* display: flex;
     align-items: center;
     justify-content: center; */
     float: right;
     /* width: 200px;
     height: auto; */
-  }
+}
 
-  .profile-pic {
-      /* padding: 20px; */
-      border-radius: 50%;
-      width: 250px;
-      height: 250px;
-  }
+.profile-pic {
+    /* padding: 20px; */
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+}
+
+.delete-button {
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 2px;
+    background-color: #c2413d;
+    outline: none;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.delete-button:hover {
+    cursor: pointer;
+    background-color: white;
+    color: #1c2237;
+    transition: all 0.4s ease-out;
+}
+
+.button-container {
+    padding-top: 80px;
+}

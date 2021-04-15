@@ -59,14 +59,14 @@ class UserProfile extends Component {
             alert(body);
         } else {
             this.setState({
-                name: body.name || '',
-                bio: body.bio || '',
-                age: body.age || '',
-                gender: body.gender || '',
-                address: body.location.address || '',
+                name: body.name,
+                bio: body.bio,
+                age: body.age,
+                gender: body.gender,
+                address: body.location.address,
                 img: body.img,
-                interests: body.interests || '',
-                interests2: body.interests || '',
+                interests: body.interests,
+                interests2: body.interests,
             });
         }
     };
@@ -74,15 +74,12 @@ class UserProfile extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        
-        let userInterests;
+        let userInterests = [];
 
-        userInterests = [];
         for (let i in this.state.interests) {
-            if (typeof(this.state.interests[i]) === 'object' ) {
+            if (typeof this.state.interests[i] === 'object') {
                 userInterests.push(this.state.interests[i].label);
-            }
-            else {
+            } else {
                 userInterests.push(this.state.interests[i]);
             }
         }
@@ -116,7 +113,6 @@ class UserProfile extends Component {
                 window.location.reload(false);
             }, 1000);
         }
-        
     };
 
     handleChange = (e, key) => {
@@ -246,10 +242,13 @@ class UserProfile extends Component {
                         </div>
                         <div className="form-inputs">
                             <label htmlFor="text" className="form-label">
-                                Interests: &emsp; {this.state.interests2.join(', ')}
+                                Interests: &emsp;{' '}
+                                {this.state.interests2.join(', ')}
                             </label>
                             <Select
-                                onChange={value => this.handleInterestsChange(value)}
+                                onChange={(value) =>
+                                    this.handleInterestsChange(value)
+                                }
                                 options={this.options}
                                 isMulti
                             />

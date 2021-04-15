@@ -175,11 +175,20 @@ function Navbar() {
                             </li>
                             <li className="nav-item">
                                     <Link
-                                        to="/match"
+                                        to="/Search"
                                         className="nav-links"
                                         onClick={closeMobileMenu}
                                     >
-                                        Match
+                                        Search
+                                    </Link>
+                            </li>
+                            <li className="nav-item">
+                                    <Link
+                                        to="/Matches"
+                                        className="nav-links"
+                                        onClick={closeMobileMenu}
+                                    >
+                                        Matches
                                     </Link>
                             </li>
                             <li

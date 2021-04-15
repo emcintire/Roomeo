@@ -34,6 +34,32 @@ class UserAccount extends Component {
         }
     };
 
+    handleDeleteAccount = async () => {
+        const response = await fetch('/api/users/deleteAccount', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-auth-token': localStorage.getItem('token'),
+            },
+        });
+
+        const body = await response.text();
+        if (response.status !== 200) {
+            alert(body);
+        } else {
+            NotificationManager.success(
+                'User Account Deleted',
+                'Success!',
+                3000
+            );
+            setTimeout(() => {
+                this.props.history.push('/');
+                window.location.reload(false);
+                localStorage.removeItem('token');
+            }, 1000);
+        }
+    };
+
     handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -130,6 +156,14 @@ class UserAccount extends Component {
                         <div>
                             <button className="form-button" type="submit">
                                 Update Account
+                            </button>
+                        </div>
+                        <div className="button-container">
+                            <button
+                                className="delete-button"
+                                onClick={this.handleDeleteAccount}
+                            >
+                                Delete Account
                             </button>
                         </div>
                     </form>

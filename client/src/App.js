@@ -10,7 +10,8 @@ import Terms from './components/pages/Terms/terms';
 import Privacy from './components/pages/Privacy/privacy';
 import UserAccount from './components/pages/myAccount/UserAccount';
 import UserProfile from './components/pages/myAccount/UserProfile';
-import match from './components/pages/Match/match';
+import Search from './components/pages/Search/Search';
+import Matches from './components/pages/Matches/Matches';
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
         <Route path='/sign-in/' component={SignIn}  />
         <Route path='/UserAccount/' component={UserAccount}  />
         <Route path='/UserProfile/' component={UserProfile}  />
-        <Route path='/match/' component={match}  />
+        <Route path='/Search/' component={Search}  />
+        <Route path='/Matches/' component={Matches}  />
       </Switch>
       <Route path='/terms/' component={Terms}  />
       <Route path='/privacy/' component={Privacy}  />
