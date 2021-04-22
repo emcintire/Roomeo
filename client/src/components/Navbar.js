@@ -58,8 +58,8 @@ function Navbar() {
                                 className="navbar-logo"
                                 onClick={closeMobileMenu}
                             >
-                                <FaBed className="navbar-icon" />
-                                ROOMEO
+                                <img src='images/RoomeoLogo.png' className="navbar-icon" />
+                                
                             </Link>
                             <div className="menu-icon" onClick={handleClick}>
                                 {click ? <FaTimes /> : <FaBars />}
@@ -153,8 +153,8 @@ function Navbar() {
                             className="navbar-logo"
                             onClick={closeMobileMenu}
                         >
-                            <FaBed className="navbar-icon" />
-                            ROOMEO
+                            <img src='images/RoomeoLogo.png' className="navbar-icon" />
+                            
                         </Link>
                         <div className="menu-icon" onClick={handleClick}>
                             {click ? <FaTimes /> : <FaBars />}

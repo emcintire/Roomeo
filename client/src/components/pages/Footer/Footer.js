@@ -62,8 +62,8 @@ function Footer() {
         <div className='social-media-wrap'>
           <div className='footer-logo'>
             <Link to='/' className='social-logo'>
-              <FaBed className='navbar-icon' />
-              ROOMEO
+              <img src='images/RoomeoLogo.png' className='navbar-icon' />
+              
             </Link>
           </div>
           <small className='website-rights'>ROOMEO © 2021</small>
