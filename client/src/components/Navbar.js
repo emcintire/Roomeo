@@ -191,6 +191,15 @@ function Navbar() {
                                         Matches
                                     </Link>
                             </li>
+                            <li className="nav-item">
+                                    <Link
+                                        to="/Messages"
+                                        className="nav-links"
+                                        onClick={closeMobileMenu}
+                                    >
+                                        Messages
+                                    </Link>
+                            </li>
                             <li
                                 className="nav-item"
                                 onMouseEnter={onMouseEnter}

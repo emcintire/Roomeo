@@ -12,6 +12,7 @@ import UserAccount from './components/pages/myAccount/UserAccount';
 import UserProfile from './components/pages/myAccount/UserProfile';
 import Search from './components/pages/Search/Search';
 import Matches from './components/pages/Matches/Matches';
+import Messages from './components/pages/Messages/Messages';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path='/UserProfile/' component={UserProfile}  />
         <Route path='/Search/' component={Search}  />
         <Route path='/Matches/' component={Matches}  />
+        <Route path='/Messages/' component={Messages}  />
       </Switch>
       <Route path='/terms/' component={Terms}  />
       <Route path='/privacy/' component={Privacy}  />
