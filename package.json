@@ -10,6 +10,7 @@
         "concurrently": "^6.0.2",
         "framer-motion": "^3.10.2",
         "nodemon": "^2.0.7",
+        "react-chat-engine": "^1.8.10",
         "styled-components": "^5.2.1",
         "yarn": "^1.22.10"
     }
