@@ -13,6 +13,7 @@ import UserProfile from './components/pages/myAccount/UserProfile';
 import Search from './components/pages/Search/Search';
 import Matches from './components/pages/Matches/Matches';
 import Messages from './components/pages/Messages/Messages';
+import ourTeam from './components/pages/Contact/our-team';
 
 function App() {
   return (
@@ -28,9 +29,10 @@ function App() {
         <Route path='/Search/' component={Search}  />
         <Route path='/Matches/' component={Matches}  />
         <Route path='/Messages/' component={Messages}  />
+        <Route path='/terms/' component={Terms}  />
+        <Route path='/privacy/' component={Privacy}  />
+        <Route path='/our-team/' component={ourTeam}  />
       </Switch>
-      <Route path='/terms/' component={Terms}  />
-      <Route path='/privacy/' component={Privacy}  />
       <Footer />
     </Router>   
   );
