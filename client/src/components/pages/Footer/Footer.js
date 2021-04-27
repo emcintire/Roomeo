@@ -64,7 +64,7 @@ function Footer() {
           </div>
           <small className='website-rights'>ROOMEO © 2021</small>
           <div className='social-icons'>
-            <Link
+            {/* <Link
               className='social-icon-link'
               to='/'
               target='_blank'
@@ -95,15 +95,15 @@ function Footer() {
               aria-label='Twitter'
             >
               <FaTwitter />
-            </Link>
-            <Link
+            </Link> */}
+            {/* <Link
               className='social-icon-link'
               to='/'
               target='_blank'
               aria-label='LinkedIn'
             >
               <FaLinkedin />
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>
