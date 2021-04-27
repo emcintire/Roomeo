@@ -1,5 +1,6 @@
 .navbar {
-    background: #699fa1;
+    /* background: #699fa1; */
+    background: linear-gradient(to right, #c31432, #240b36);
     height: 80px;
     display: flex;
     justify-content: center;
@@ -94,7 +95,8 @@
     }
   
     .nav-menu.active {
-      background: #1c2237;
+      /* background: #1c2237; */
+      background: linear-gradient(to right, #c31432, #240b36);
       left: 0;
       opacity: 1;
       transition: all 0.6s ease;
