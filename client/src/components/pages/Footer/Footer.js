@@ -9,12 +9,12 @@ import {
   FaTwitter,
   FaLinkedin
 } from 'react-icons/fa';
-import { FaBed } from 'react-icons/fa';
+
 
 function Footer() {
   return (
     <div className='footer-container'>
-      <section className='footer-subscription'>
+      {/* <section className='footer-subscription'>
         <p className='footer-subscription-heading'>
           Subscribe to receive email notifications when someone is interested in Rooming with you!
         </p>
@@ -32,29 +32,25 @@ function Footer() {
             <Button buttonStyle='btn--outline'>Subscribe</Button>
           </form>
         </div>
-      </section>
+      </section> */}
       <div className='footer-links'>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
-            <h2> About Us</h2>
-            <Link to='/'>Mission Statement</Link>
+            <h2> Terms & Policy </h2>
             <Link to='/privacy'>Privacy Policy</Link>
             <Link to='/terms'>Terms of Service</Link>
           </div>
-          <div className='footer-link-items'>
+          {/* <div className='footer-link-items'>
             <h2>Contact Us</h2>
             <Link to='/'>Contact</Link>
             <Link to='/'>Support</Link>
 
-          </div>
+          </div> */}
         </div>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
-            <h2>Social Media</h2>
-            <Link to='/'>Instagram</Link>
-            <Link to='/'>Facebook</Link>
-            <Link to='/'>Youtube</Link>
-            <Link to='/'>Twitter</Link>
+            <h2> Our Team </h2>
+            <Link to='/our-team'>Contact Us</Link>
           </div>
         </div>
       </div>
