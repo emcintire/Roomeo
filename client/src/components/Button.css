@@ -61,10 +61,21 @@
 
 .btn--wide:hover{
     color: white;
-    background-color: #f00946;
+    background-color: transparent;
     transition: all 0.2s ease-out;
 }
 
+.standard{
+    background-color: white;
+    color:#242424;
+    border: none;
+}
+
+.standard:hover{
+    background-color: white;
+    color: #242424;
+    border: none;
+}
 .blue{
     background-color: #699fa1;
     color: white;

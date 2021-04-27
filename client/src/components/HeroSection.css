@@ -54,7 +54,9 @@
   }
   
   .darkBg {
-    background-color: #1c2237;
+    /* background-color: #1c2237; */
+    background: linear-gradient(to right, #c31432, #240b36);
+
   }
   
   .home__hero-subtitle {

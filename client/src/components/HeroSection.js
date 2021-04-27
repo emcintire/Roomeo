@@ -54,7 +54,7 @@ function HeroSection({
                                 <Link to="/sign-up" style={ isLoggedIn ? { display: 'none' } : {}}>
                                     <Button
                                         buttonSize="btn--wide"
-                                        buttonColor="blue"
+                                        buttonColor="standard"
                                     >
                                         {buttonLabel}
                                     </Button>
