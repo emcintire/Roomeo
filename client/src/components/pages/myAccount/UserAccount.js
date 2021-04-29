@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import '../forms.css';
+import { AiFillWarning } from "react-icons/ai";
 
 class UserAccount extends Component {
     constructor(props) {
@@ -163,6 +164,10 @@ class UserAccount extends Component {
                                 className="delete-button"
                                 onClick={this.handleDeleteAccount}
                             >
+                                <span id="icon">
+                                    <AiFillWarning />
+                                </span>
+                                <span> </span>
                                 Delete Account
                             </button>
                         </div>

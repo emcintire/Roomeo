@@ -1,17 +1,25 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 .form-container {
-    margin: auto;
-    width: 100%;
+    /* margin: auto; */
+    /* width: 100%; */
     /* background-color: #1c2237; */
     background: linear-gradient(to right, #c31432, #240b36);
     position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     /* max-width: 500px; */
     /* position: relative;
     border-radius: 10px;
     height: 600px;
     display: inline-block; */
+    /* height: 100vh; */
+
 }
 
 .form-content {
@@ -21,29 +29,33 @@
     max-width: 500px;
     flex: 1;
     position: relative;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* text-align: center; */
 }
 
-.forms {
-    /* position:absolute; */
-    top: 50%;
+.form {
+    position: relative;
+    /* top: 50%;
     left: 50%;
-    width: 90%;
-    transform: translate(-50%, -50%);
+    width: 90%; */
+    /* transform: translate(-50%, -50%); */
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: white;
+    padding: 40px 40px 20px;
+    text-align: center;
 }
 
 .form h1 {
     font-size: 2rem;
-    text-align: start;
+    text-align: center;
     width: 100%;
     margin-bottom: 1rem;
-    color: white;
+    color: black;
 }
 
 .form-header {
@@ -57,21 +69,25 @@
 .form-inputs {
     margin-bottom: 0.5rem;
     width: 100%;
+    text-align: start;
 }
 
 .form-label {
     display: inline-block;
     font-size: 0.8rem;
     margin-bottom: 6px;
-    color: white;
+    /* color: black; */
+    text-align: start;
+    
 }
 
 .form-button {
-    width: 100%;
+    width: 150px;
     height: 50px;
     margin-top: 10px;
     border-radius: 2px;
-    background-color: #699fa1;
+    /* background-color: #699fa1; */
+    background-color: #a02e41;
     outline: none;
     border: none;
     color: #fff;
@@ -84,18 +100,23 @@
     outline: none;
     border-radius: 2px;
     height: 40px;
+    border-left: none;
+    border-top: none ;
+    border-right: none;
     width: 100%;
-    border: none;
+    
 }
 
 .form-inputs-small {
     margin-bottom: 0.5rem;
-    width: 40%;
+    width: 100%;
+    text-align: start;
 }
 
 .form-inputs-small-gender {
     margin-bottom: 0.5rem;
-    width: 40%;
+    width: 100%;
+    text-align: start;
     padding-bottom: 50px;
 }
 
@@ -103,11 +124,12 @@
     display: block;
     padding-left: 10px;
     padding-top: 10px;
-    outline: none;
+    /* outline-color: black; */
     border-radius: 2px;
+    /* border-color: black; */
     height: 100px;
     width: 100%;
-    border: none;
+    border:10;
 }
 
 .form-button:hover {
@@ -118,35 +140,36 @@
 }
 
 .form-img-buttons {
-    /* display: flex;
+    display: flex; 
     align-self: center;
-    justify-content: center; */
+    justify-content: center; 
     padding-bottom: 10px;
-    float: right;
+    /* float: right; */
 }
 
 .img-container {
-    /* display: flex;
+    display: flex;
     align-items: center;
-    justify-content: center; */
-    float: right;
-    /* width: 200px;
-    height: auto; */
+    justify-content: center; 
+    /* float:right; */
+    /* width: 200px; */
+    height: auto;
+    /* height: 25%; */
 }
 
 .profile-pic {
-    /* padding: 20px; */
+    padding: 20px; 
     border-radius: 50%;
     width: 250px;
     height: 250px;
 }
 
 .delete-button {
-    width: 100%;
+    width: 150px ;
     height: 50px;
     margin-top: 10px;
     border-radius: 2px;
-    background-color: #c2413d;
+    background-color: red;
     outline: none;
     border: none;
     color: #fff;
@@ -163,3 +186,4 @@
 .button-container {
     padding-top: 80px;
 }
+

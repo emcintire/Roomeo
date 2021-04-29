@@ -168,7 +168,11 @@ class UserProfile extends Component {
         return (
             <div className="form-container">
                 <div className="form-content">
+
+                 
+                    <form className="form" onSubmit={this.handleSubmit}>
                     <h1 className="form-header"> Edit Profile </h1>
+
                     <div className="img-container">
                         <img
                             className="profile-pic"
@@ -180,6 +184,7 @@ class UserProfile extends Component {
                             alt="Profile Pic"
                         />
                     </div>
+                    
                     <form
                         className="form-img-buttons"
                         encType="multipart/form-data"
@@ -188,7 +193,10 @@ class UserProfile extends Component {
                         <input type="file" name="file" />
                         <input type="submit" value="Submit" />
                     </form>
-                    <form className="form" onSubmit={this.handleSubmit}>
+
+
+
+
                         <div className="form-inputs-small">
                             <label htmlFor="text" className="form-label">
                                 Name

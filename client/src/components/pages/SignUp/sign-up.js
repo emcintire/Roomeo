@@ -109,10 +109,17 @@ class signUp extends Component {
                                     onChange={this.handleChange}
                                 />
                             </div>
+                            {/* <div className="form-inputs">
+                                <input
+                                    type="checkbox"
+                                />
+                                <p> Accept the <span>Terms and Conditions</span> </p>
+                            </div> */}
                             <div>
                                 <button className="form-button" type="submit">
                                     Create Account
                                 </button>
+                                {/* <p>Already have an account? <span>Sign In</span></p> */}
                             </div>
                             <p>{this.state.responseToPost}</p>
                         </form>
