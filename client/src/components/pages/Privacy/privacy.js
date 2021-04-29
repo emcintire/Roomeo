@@ -1,5 +1,6 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
+import '../forms.css';
 
 function Privacy() {
     return (
@@ -26,6 +27,7 @@ function Privacy() {
             <h2> 4. Governing Law </h2>
             <p> Any claim related to Roomes's Website shall be governed by the laws of Country without regards to its conflict of law provisions.
             </p>
+            <br></br>
         </div>
     )
 }
