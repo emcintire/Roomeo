@@ -14,7 +14,8 @@
    */
 .like__btn {
     padding: 10px 15px;
-    background: #33a55f;
+    /* background: #33a55f; */
+    background: #296e01;
     font-size: 18px;
     font-family: 'Open Sans', sans-serif;
     border-radius: 5px;
@@ -23,13 +24,14 @@
     border: none;
     cursor: pointer;
     position: absolute;
-    left: 70%;
+    left: 65%;
     bottom: 10px;
 }
 
 .dislike__btn {
     padding: 10px 15px;
-    background: #c2413d;
+    /* background: #c2413d; */
+    background: #a62c2b;
     font-size: 18px;
     font-family: 'Open Sans', sans-serif;
     border-radius: 5px;
