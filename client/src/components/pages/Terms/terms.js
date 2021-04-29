@@ -36,6 +36,7 @@ function Terms() {
             <p> Roomeo may revise these Terms of Use for its Website at any time without prior notice.
             By using this Website, you are agreeing to be bound by the current version of these Terms and Conditions of Use.
             </p>
+            <br></br>
         </div>
     )
 }
