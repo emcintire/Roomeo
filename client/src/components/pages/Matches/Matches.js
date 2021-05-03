@@ -9,6 +9,8 @@ import './matches.css';
 import '../forms.css';
 import 'react-notifications/lib/notifications.css';
 import default_profile_pic from '../../../images/default_profile_pic.png';
+import { ImCross } from "react-icons/im";
+
 
 class Matches extends Component {
     constructor(props) {
@@ -86,9 +88,19 @@ class Matches extends Component {
                 {this.state.matches.map((item, index) => {
                     return (
                         <List className="list-container" component="nav">
+                           
                             <ListItem className="list-item" button>
                                 <ListItemText className="list-text" primary={item.name} />
+
+                                <button className="unmatch-btn">
+                                    <span id="icon">
+                                        <ImCross/>
+                                    </span>
+                                    <span> </span>
+                                    Unmatch
+                                </button>
                             </ListItem>
+                            
                             <Divider />
                         </List>
                     );
