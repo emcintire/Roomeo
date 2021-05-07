@@ -28,6 +28,7 @@ class UserProfile extends Component {
     //Options for the interests Select element
     options = [
         { value: 'Sports', label: 'Sports' },
+        { value: 'Video Games', label: 'Video Games' },
         { value: 'Going Out', label: 'Going Out' },
         { value: 'Reading', label: 'Reading' },
         { value: 'Late Nights', label: 'Late Nights' },
@@ -169,8 +170,7 @@ class UserProfile extends Component {
             <div className="form-container">
                 <div className="form-content">
 
-                 
-                    <form className="form" onSubmit={this.handleSubmit}>
+                <div className="form">
                     <h1 className="form-header"> Edit Profile </h1>
 
                     <div className="img-container">
@@ -194,7 +194,7 @@ class UserProfile extends Component {
                         <input type="submit" value="Submit" />
                     </form>
 
-
+                    <form onSubmit={this.handleSubmit}>
 
 
                         <div className="form-inputs-small">
@@ -282,6 +282,7 @@ class UserProfile extends Component {
                             </button>
                         </div>
                     </form>
+                    </div>
                 </div>
                 <NotificationContainer />
             </div>

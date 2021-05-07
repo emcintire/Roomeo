@@ -23,6 +23,12 @@ class Matches extends Component {
         // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount = async () => {
+        this.getUserData();
+        // this.loadImages();
+        // console.log(this.state.images);
+    };
+
     getUserData = async () => {
         const response = await fetch('/api/users/getUserData', {
             method: 'POST',
@@ -44,15 +50,35 @@ class Matches extends Component {
             });
         }
     };
+    
+    handleUnmatch = async (userId) => {
+        const response = await fetch('/api/users/unmatch', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-auth-token': localStorage.getItem('token'),
+            },
+            body: JSON.stringify({
+                id: userId
+            }),
+        });
 
-    handleLike = async (event) => {
-        event.preventDefault();
-    };
+        // const body = await response.json();
 
-    componentDidMount = async () => {
-        this.getUserData();
-        this.loadImages();
-        // console.log(this.state.images);
+        if (response.status !== 200) {
+            alert(response);
+        } else {
+            NotificationManager.success(
+                'User unmatched!',
+                'Success!',
+                3000
+            );
+            setTimeout(() => {
+                window.location.reload(false);
+            }, 1000);
+        }
+
+
     };
 
     loadImages = async () => {
@@ -92,7 +118,7 @@ class Matches extends Component {
                             <ListItem className="list-item" button>
                                 <ListItemText className="list-text" primary={item.name} />
 
-                                <button className="unmatch-btn">
+                                <button className="unmatch-btn" onClick={() => this.handleUnmatch(item._id)}>
                                     <span id="icon">
                                         <ImCross/>
                                     </span>

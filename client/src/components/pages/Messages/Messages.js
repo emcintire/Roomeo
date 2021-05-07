@@ -30,10 +30,10 @@ const DirectChatPage = () => {
 
     return (
         <ChatEngine
-            height = '100vh'
+            height = '86vh'
  			projectID='d6414df1-8882-4eff-8380-40d6b34b5a69'
- 			userName='John'
- 			userSecret='john'
+ 			userName='User1'
+ 			userSecret='roomeo'
             renderNewChatForm={(creds) => renderChatForm(creds)}
  		/>
  	)
