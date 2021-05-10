@@ -102,7 +102,8 @@ const userSchema = new mongoose.Schema({
                 "Indie Music","Rock Music","Pop Music",
                 "Country Music","Rap Music","Reading", 
                 "Hiking","Movies","Binging TV Shows", 
-                "Early Mornings","Late Nights","Going Out","Sports"
+                "Early Mornings","Late Nights","Going Out","Sports",
+                "Video Games"
             ]
         }
     }

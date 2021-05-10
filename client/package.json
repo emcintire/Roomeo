@@ -20,6 +20,7 @@
     "react-scripts": "4.0.3",
     "react-select": "^4.3.0",
     "styled-components": "^5.2.1",
+    "talkjs": "^0.14.5",
     "web-vitals": "^1.0.1",
     "yarn": "^1.22.10"
   },

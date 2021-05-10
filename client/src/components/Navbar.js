@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBars, FaTimes, FaBed } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { MdArrowDropDown } from 'react-icons/md';
 import './Navbar.css';
 import { Button } from './Button';
@@ -58,7 +58,7 @@ function Navbar() {
                                 className="navbar-logo"
                                 onClick={closeMobileMenu}
                             >
-                                <img src='images/RoomeoLogo.png' className="navbar-icon" />
+                                <img src='images/RoomeoLogo.png' className="navbar-icon" alt="logo" />
                                 
                             </Link>
                             <div className="menu-icon" onClick={handleClick}>
@@ -153,7 +153,7 @@ function Navbar() {
                             className="navbar-logo"
                             onClick={closeMobileMenu}
                         >
-                            <img src='images/RoomeoLogo.png' className="navbar-icon" />
+                            <img src='images/RoomeoLogo.png' className="navbar-icon" alt="logo" />
                             
                         </Link>
                         <div className="menu-icon" onClick={handleClick}>

@@ -177,19 +177,19 @@ class Search extends Component {
                     src={this.state.img ? profilePic : default_profile_pic}
                     alt="Profile Pic"
                 />
-                <button className="like__btn" onClick={this.handleLike}>
-                    <span id="icon">
-                        <FaRegThumbsUp />
-                    </span>
-                    <span> </span>
-                    Like
-                </button>
                 <button className="dislike__btn" onClick={this.handleDislike}>
                     <span id="icon">
                         <FaRegThumbsDown />
                     </span>
                     <span> </span>
                     Dislike
+                </button>
+                <button className="like__btn" onClick={this.handleLike}>
+                    <span id="icon">
+                        <FaRegThumbsUp />
+                    </span>
+                    <span> </span>
+                    Like
                 </button>
                 <NotificationContainer />
             </div>

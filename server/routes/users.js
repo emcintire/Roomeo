@@ -60,6 +60,18 @@ router.post('/getUserData', async (req, res) => {
     res.status(200).send(user);
 });
 
+router.post('/getUserDataWithId', async (req, res) => {
+    const user = await User.findById(req.body.id);
+
+    if (!user)
+        return res
+            .status(404)
+            .send('The user with the given ID was not found.');
+
+    res.status(200).send(user);
+});
+
+
 router.post('/img', upload.single('file'), (req, res) => {
     const id = getIdFromToken(req.header('x-auth-token'));
     const tempPath = req.file.path;

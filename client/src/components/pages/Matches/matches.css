@@ -13,27 +13,26 @@
   } 
    */
 
-.profile_pic {
+.profile-picture {
     right: 10%;
     top: 10%;
     position: absolute;
     float: right;
     border-radius: 50%;
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
 }
 
 .match-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
+    justify-content: flex-start;
     width: 100%;
     height: 80vh;
     float: inline-start;
     /* background-color: #1c2237; */
     background: linear-gradient(to right, #c31432, #240b36);
-
 }
 
 .list-container {
@@ -56,12 +55,96 @@
     padding: 20px 0 50px 20px;
 }
 
-
-.unmatch-btn{
-    color: red;
-    
-    background-color: transparent;
-    border: none;
+.unmatch-btn {
+    margin-left: 30px;
+    margin-right: 15px;
+    height: 30px;
+    width: 60px;
+    border:solid 1px black;
+    border-radius: 3px;
+    background: rgba(255, 255, 255,0);
     cursor: pointer;
-    
+}
+
+.unmatch-btn:hover {
+    background: #c2413d;
+    color: white;
+}
+
+.message-btn {
+    height: 30px;
+    width: 60px;
+    border:solid 1px black;
+    border-radius: 3px;
+    background: rgba(255, 255, 255,0);
+    cursor: pointer;
+}
+
+.message-btn:hover {
+    background: black;
+    color: white;
+}
+
+.modal {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.modal_content {
+    background-color: white;
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 60%;
+    height: auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+
+.name {
+    font-size: 50px;
+    color: black;
+    padding: 20px 0 0 40px;
+}
+
+.bio {
+    font-size: 15px;
+    color: black;
+    padding-left: 40px;
+    padding-bottom: 20px;
+}
+
+.title {
+    /* color: #97d6d8; */
+    font-size: 20px;
+}
+
+.content {
+    font-size: 22px;
+    color: black;
+    padding: 5px 5px 5px 40px;
+}
+
+.content-container {
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+.close {
+    cursor: pointer;
+    color: red;
+}
+
+.small-pic {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    left: 10px;
 }
