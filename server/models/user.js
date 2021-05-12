@@ -80,17 +80,13 @@ const userSchema = new mongoose.Schema({
         }]
     }],
     filters: {
-        minAge: {
-            type: Number,
-            default: 18
-        },
-        maxAge: {
-            type: Number,
-            default: 100
+        ageRange: {
+            type: [Number],
+            default: [18, 100]
         },
         gender: {
-            type: [String],
-            default: ['Male', 'Female', 'Other']
+            type: String,
+            default: 'Everyone'
         },
         distance: {
             type: Number,

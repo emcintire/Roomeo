@@ -195,6 +195,20 @@ router.post('/getUsers', auth, async (req, res) => {
             .status(404)
             .send('The user with the given ID was not found.');
 
+    let wantedGender = [];
+
+    switch (req.body.gender) {
+        case 'Everyone': 
+            wantedGender = ['Male', 'Female', 'Other'];
+            break;
+        case 'Men':
+            wantedGender = ['Male'];
+            break;
+        case 'Women':
+            wantedGender = ['Female'];
+            break;
+    }
+
     const query = {
         $and: [
             {
@@ -217,13 +231,13 @@ router.post('/getUsers', auth, async (req, res) => {
             },
             {
                 age: {
-                    $gte: req.body.minAge,
-                    $lte: req.body.maxAge,
+                    $gte: req.body.ageRange[0],
+                    $lte: req.body.ageRange[1],
                 },
             },
-            { gender: { $in: req.body.gender } },
-            // { interests: { $all: req.body.interests } },
-            { interests: { $in: req.body.interests } },
+            { gender: { $in: wantedGender } },
+            // { interests: { $all: req.body.interests } } ,
+            // { interests: { $in: req.body.interests } },
         ],
     };
 

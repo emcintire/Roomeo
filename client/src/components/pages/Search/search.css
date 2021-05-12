@@ -100,3 +100,97 @@
     color: white;
     padding: 5px 5px 5px 40px;
 }
+
+.filters-btn {
+    width: 60px;
+    height: 30px;
+    margin-right: 40px;
+    margin-top: 20px;
+    float: right;
+    border:solid 2px white;
+    border-radius: 5px;
+    background: rgba(255, 255, 255,0);
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    color: #e8efff;
+    cursor: pointer;
+}
+
+.filters-btn:hover {
+    background-color: white;
+    color: black;
+}
+
+.filters-header {
+    font-size: 30px;
+    color: black;
+    padding: 0 40px 20px 40px;
+}
+
+.filters-menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-container {
+    background-color: white;
+    position: absolute;
+    top: 2%;
+    width: 50%;
+    height: auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+
+.menu-content {
+    padding: 5px 40px 40px 40px;
+    
+}
+
+.distance {
+    float: right;
+}
+
+.ages {
+    float: right;
+}
+
+.filter-titles {
+    padding-top: 20px;
+}
+
+.submit-btn-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-btn {
+    margin-top: 50px;
+    height: 50px;
+    width: 90px;
+    border:solid 2px white;
+    border-radius: 5px;
+    background: linear-gradient(to right, #c31432, #240b36);
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: white;
+    color: black;
+    border: solid 2px black;
+    border-radius: 5px;
+}
