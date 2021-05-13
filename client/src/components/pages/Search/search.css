@@ -24,8 +24,8 @@
     color: #e8efff;
     cursor: pointer;
     position: absolute;
-    left: 65%;
-    bottom: 10%;
+    left: 80%;
+    bottom: 25%;
 }
 
 .dislike__btn {
@@ -39,8 +39,8 @@
     color: #e8efff;
     cursor: pointer;
     position: absolute;
-    left: 80%;
-    bottom: 10%;
+    left: 67%;
+    bottom: 25%;
 }
 
 .like__btn:hover {

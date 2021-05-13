@@ -245,7 +245,7 @@ router.post('/getUsers', auth, async (req, res) => {
     res.status(200).send(results);
 });
 
-router.put('/updateFilters', auth, async (req, res) => {
+router.post('/updateFilters', auth, async (req, res) => {
     //Updates the users filters for finding other users
     const id = getIdFromToken(req.header('x-auth-token'));
     const user = await User.findById(id);

@@ -118,7 +118,7 @@ class Search extends Component {
 
     submitFilters = async () => {
         const response = await fetch('/api/users/updateFilters', {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'x-auth-token': localStorage.getItem('token'),
@@ -149,7 +149,6 @@ class Search extends Component {
 
     componentDidMount = async () => {
         const user = await this.getUserData();
-        console.log(user.filters.gender);
  
         let response = await fetch('/api/users/getUsers', {
             method: 'POST',
