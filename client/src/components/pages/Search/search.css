@@ -67,7 +67,8 @@
     margin: auto;
     width: 100%;
     height: 100vh;
-    background: linear-gradient(to right, #c31432, #240b36);
+    /* background: linear-gradient(to right, #c31432, #240b36); */
+    background: #7c9a92;
     position: relative;
     display: inline-block;
     justify-content: center;
@@ -182,7 +183,8 @@
     width: 90px;
     border:solid 2px white;
     border-radius: 5px;
-    background: #a02e41;
+    /* background: #a02e41; */
+    background-color: rgb(34, 54, 48);
     font-size: 18px;
     font-family: 'Open Sans', sans-serif;
     color: white;

@@ -1,34 +1,51 @@
-import React from 'react';
-import './about-us.css';
-// import { Link } from 'react-router-dom';
+// import React from 'react';
+// import './about-us.css';
+// // import { Link } from 'react-router-dom';
+
+// function aboutUs() {
+//     return (
+//         <div className="about-container">
+//             <div className="all-wrapper">
+//             <h1 className="about-header"> About Us</h1>
+//             <p className="about-content">
+//                 Roomeo is a service tailored to fit your rooming dreams. We keep
+//                 you in mind at every step to ensure you have the best
+//                 experience. 
+//                 <br></br>
+//                 <br></br>
+//                 Roomeo has users do quick background checks and gives the option to link social media accounts so both 
+//                 roommates can feel more confident and secure in the process. Once you're ready to message a potential “Roome," 
+//                 you can do so through the app so you don't have to exchange any personal contact information until you're ready.
+//                 You can look for someone to move into your open space, move into a vacant room 
+//                 someone else is offering or find a new roommate to look for an entirely new apartment with.
+//                 Members can match based on testimonials from friends, hobbies, interests and questions answered through their 
+//                 profiles. Roomster allows users to link their social accounts, so this app tends to have more 
+//                 data to find the perfect match. Once you find a potential roommate that looks promising, 
+//                 you can connect with them through the Roomster mailbox.
+
+
+//             </p>
+//             </div>
+//         </div>
+//     );
+// }
+
+// export default aboutUs;
+
+import React from 'react'
+import HeroSection from '../../HeroSection'
+import {
+  homeObjOne, homeObjTwo
+} from './about-us-data'
 
 function aboutUs() {
     return (
-        <div className="about-container">
-            <h1 className="about-header"> About Us</h1>
-            <p className="about-content">
-                Roomeo is a service tailored to fit your rooming dreams. We keep
-                you in mind at every step to ensure you have the best
-                experience. 
-                <br></br>
-                <br></br>
-                According to all known laws of aviation, there is no
-                way a bee should be able to fly. Its wings are too small to get
-                its fat little body off the ground. The bee, of course, flies
-                anyway because bees don't care what humans think is impossible.
-                Yellow, black. Yellow, black. Yellow, black. Yellow, black. Ooh,
-                black and yellow! Let's shake it up a little. Barry! Breakfast
-                is ready! Ooming! Hang on a second. Hello? - Barry? - Adam? -
-                Oan you believe this is happening? - I can't. I'll pick you up.
-                Looking sharp. Use the stairs. Your father paid good money for
-                those. Sorry. I'm excited. Here's the graduate. We're very proud
-                of you, son. A perfect report card, all B's. Very proud. Ma! I
-                got a thing going here. - You got lint on your fuzz. - Ow!
-                That's me! - Wave to us! We'll be in row 118,000. - Bye! Barry,
-                I told you, stop flying in the house!
-            </p>
-        </div>
+        <>
+          <HeroSection {...homeObjOne} />
+          <HeroSection {...homeObjTwo} />
+
+        </>
     );
 }
 
-export default aboutUs;
+export default aboutUs
