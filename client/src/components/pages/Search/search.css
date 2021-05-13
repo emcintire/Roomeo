@@ -45,10 +45,12 @@
 
 .like__btn:hover {
     background: #33a55f;
+    transition: all 0.3s ease-out;
 }
 
 .dislike__btn:hover {
     background: #c2413d;
+    transition: all 0.3s ease-out;
 }
 
 .profile_pic {
@@ -65,9 +67,7 @@
     margin: auto;
     width: 100%;
     height: 100vh;
-    /* background-color: #1c2237; */
     background: linear-gradient(to right, #c31432, #240b36);
-
     position: relative;
     display: inline-block;
     justify-content: center;
@@ -107,7 +107,7 @@
     margin-right: 40px;
     margin-top: 20px;
     float: right;
-    border:solid 2px white;
+    border:solid 1.5px white;
     border-radius: 5px;
     background: rgba(255, 255, 255,0);
     font-size: 16px;
@@ -119,6 +119,7 @@
 .filters-btn:hover {
     background-color: white;
     color: black;
+    transition: all 0.3s ease-out;
 }
 
 .filters-header {
@@ -181,7 +182,7 @@
     width: 90px;
     border:solid 2px white;
     border-radius: 5px;
-    background: linear-gradient(to right, #c31432, #240b36);
+    background: #a02e41;
     font-size: 18px;
     font-family: 'Open Sans', sans-serif;
     color: white;
@@ -189,6 +190,7 @@
 }
 
 .submit-btn:hover {
+    transition: all 0.3s ease-out;
     background: white;
     color: black;
     border: solid 2px black;

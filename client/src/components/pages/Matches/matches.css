@@ -69,6 +69,7 @@
 .unmatch-btn:hover {
     background: #c2413d;
     color: white;
+    transition: all 0.3s ease-out;
 }
 
 .message-btn {
@@ -81,8 +82,9 @@
 }
 
 .message-btn:hover {
-    background: black;
+    background: #33a55f;
     color: white;
+    transition: all 0.3s ease-out;
 }
 
 .modal {

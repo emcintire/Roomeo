@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
-import Select from 'react-select';
 import Slider from '@material-ui/core/Slider';
 import {
     NotificationContainer,
@@ -39,7 +38,6 @@ class Search extends Component {
         });
 
         const body = await response.json();
-        console.log(body.filters.gender);
 
         if (response.status !== 200) {
             alert(body);
@@ -151,7 +149,8 @@ class Search extends Component {
 
     componentDidMount = async () => {
         const user = await this.getUserData();
-
+        console.log(user.filters.gender);
+ 
         let response = await fetch('/api/users/getUsers', {
             method: 'POST',
             headers: {
