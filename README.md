@@ -1,7 +1,3 @@
-# CSC436
+# Roomeo
 
-How to run:\
-1.) Run "yarn" in root\
-2.) Run "yarn" in ./client\
-3.) Run "yarn" in ./server\
-4.) Run "yarn dev" in root
+The #1 website for finding your soul-roommate!
