@@ -8,7 +8,8 @@
     /* margin: auto; */
     /* width: 100%; */
     /* background-color: #1c2237; */
-    background: linear-gradient(to right, #c31432, #240b36);
+    /* background: linear-gradient(to right, #c31432, #240b36); */
+    background: #7c9a92;
     position: relative;
     display: flex;
     justify-content: center;
@@ -54,6 +55,7 @@
     font-size: 2rem;
     text-align: center;
     width: 100%;
+    /* font-family: Arial, Helvetica, sans-serif; */
     margin-bottom: 1rem;
     color: black;
 }
@@ -64,7 +66,9 @@
     width: 80%;
     margin-bottom: 1rem;
     color: white;
+
 }
+
 
 .form-inputs {
     margin-bottom: 0.5rem;
@@ -87,7 +91,8 @@
     margin-top: 10px;
     border-radius: 2px;
     /* background-color: #699fa1; */
-    background-color: #a02e41;
+    /* background-color: #a02e41; */
+    background-color: rgb(34, 54, 48);
     outline: none;
     border: none;
     color: #fff;

@@ -44,6 +44,8 @@
   .heading {
     margin-bottom: 24px;
     font-size: 48px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
     line-height: 1.1;
     font-weight: 600;
     color: #f7f8fa;
@@ -55,8 +57,9 @@
   
   .darkBg {
     /* background-color: #1c2237; */
-    background: linear-gradient(to right, #c31432, #240b36);
-
+    /* background: linear-gradient(to right, #c31432, #240b36); */
+    /* background: -webkit-linear-gradient(top, #3b5998, #2b4170); */
+    background: #7c9a92;
   }
   
   .home__hero-subtitle {
